@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Package com.example.management.infrastructure.adapters.in.web</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Package com.example.management.infrastructure.adapters.in.web</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; com.example.management.infrastructure.adapters.in.web</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">6</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.005s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Failed tests</a>
+</li>
+<li>
+<a href="#">Classes</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<ul class="linkList">
+<li>
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html">POST /api/orders</a>.
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html#creates_order_and_returns_201()">creates_order_and_returns_201()</a>
+</li>
+<li>
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html">POST /api/orders</a>.
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html#rejects_empty_items_with_400()">rejects_empty_items_with_400()</a>
+</li>
+<li>
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html">GET /api/orders/{id}</a>.
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html#returns_200_and_order_when_found()">returns_200_and_order_when_found()</a>
+</li>
+<li>
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html">GET /api/orders/{id}</a>.
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html#returns_404_when_not_found()">returns_404_when_not_found()</a>
+</li>
+<li>
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html">POST /api/orders/{id}/pay</a>.
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html#returns_204_when_order_exists_and_total_ge_10()">returns_204_when_order_exists_and_total_ge_10()</a>
+</li>
+<li>
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html">POST /api/orders/{id}/pay</a>.
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html#returns_404_when_order_not_found()">returns_404_when_order_not_found()</a>
+</li>
+</ul>
+</div>
+<div class="tab">
+<h2>Classes</h2>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Tests</th>
+<th>Failures</th>
+<th>Ignored</th>
+<th>Duration</th>
+<th>Success rate</th>
+</tr>
+</thead>
+<tr>
+<td class="success">
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest.html">OrderController integration</a>
+</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td class="success">-</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html">POST /api/orders</a>
+</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0.001s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html">GET /api/orders/{id}</a>
+</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0.002s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="../classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html">POST /api/orders/{id}/pay</a>
+</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0.002s</td>
+<td class="failures">0%</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at Feb 3, 2026, 9:04:55 PM</p>
+</div>
+</div>
+</body>
+</html>

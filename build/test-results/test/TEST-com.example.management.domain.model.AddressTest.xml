@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.management.domain.model.AddressTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:04:53.597Z" hostname="RubenS" time="0.086">
+  <properties/>
+  <testcase name="shouldCreateAddressWithAllFields()" classname="com.example.management.domain.model.AddressTest" time="0.081"/>
+  <testcase name="equals_and_hashCode_shouldBeBasedOnAllFields()" classname="com.example.management.domain.model.AddressTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
