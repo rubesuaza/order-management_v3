@@ -42,7 +42,7 @@ class MoneyTest {
         Money eur = new Money(new BigDecimal("5.00"), EUR);
         assertThatThrownBy(() -> usd.add(eur))
                 .isInstanceOf(CurrencyMismatchException.class)
-                .hasMessageContaining("currency");
+                .hasMessageContaining("Currency");
     }
 
     @Test

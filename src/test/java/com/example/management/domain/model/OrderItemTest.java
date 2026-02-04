@@ -34,14 +34,14 @@ class OrderItemTest {
     void shouldRejectZeroQuantity() {
         assertThatThrownBy(() -> new OrderItem(PRODUCT_ID, 0, TEN_USD))
                 .isInstanceOf(InvalidItemException.class)
-                .hasMessageContaining("quantity");
+                .hasMessageContaining("Quantity");
     }
 
     @Test
     void shouldRejectNegativeQuantity() {
         assertThatThrownBy(() -> new OrderItem(PRODUCT_ID, -1, TEN_USD))
                 .isInstanceOf(InvalidItemException.class)
-                .hasMessageContaining("quantity");
+                .hasMessageContaining("Quantity");
     }
 
     @Test

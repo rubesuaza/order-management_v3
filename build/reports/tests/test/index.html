@@ -20,13 +20,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">40</div>
+<div class="counter">53</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">9</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -38,7 +38,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.750s</div>
+<div class="counter">2.962s</div>
 <p>duration</p>
 </div>
 </td>
@@ -47,8 +47,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">77%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -58,56 +58,12 @@
 <div class="tab-container">
 <ul class="tabLinks">
 <li>
-<a href="#">Failed tests</a>
-</li>
-<li>
 <a href="#">Packages</a>
 </li>
 <li>
 <a href="#">Classes</a>
 </li>
 </ul>
-<div class="tab">
-<h2>Failed tests</h2>
-<ul class="linkList">
-<li>
-<a href="classes/com.example.management.domain.model.MoneyTest.html">MoneyTest</a>.
-<a href="classes/com.example.management.domain.model.MoneyTest.html#add_shouldThrowWhenCurrenciesDiffer()">add_shouldThrowWhenCurrenciesDiffer()</a>
-</li>
-<li>
-<a href="classes/com.example.management.domain.model.OrderItemTest.html">OrderItemTest</a>.
-<a href="classes/com.example.management.domain.model.OrderItemTest.html#shouldRejectNegativeQuantity()">shouldRejectNegativeQuantity()</a>
-</li>
-<li>
-<a href="classes/com.example.management.domain.model.OrderItemTest.html">OrderItemTest</a>.
-<a href="classes/com.example.management.domain.model.OrderItemTest.html#shouldRejectZeroQuantity()">shouldRejectZeroQuantity()</a>
-</li>
-<li>
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html">POST /api/orders</a>.
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html#creates_order_and_returns_201()">creates_order_and_returns_201()</a>
-</li>
-<li>
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html">POST /api/orders</a>.
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html#rejects_empty_items_with_400()">rejects_empty_items_with_400()</a>
-</li>
-<li>
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html">GET /api/orders/{id}</a>.
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html#returns_200_and_order_when_found()">returns_200_and_order_when_found()</a>
-</li>
-<li>
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html">GET /api/orders/{id}</a>.
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html#returns_404_when_not_found()">returns_404_when_not_found()</a>
-</li>
-<li>
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html">POST /api/orders/{id}/pay</a>.
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html#returns_204_when_order_exists_and_total_ge_10()">returns_204_when_order_exists_and_total_ge_10()</a>
-</li>
-<li>
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html">POST /api/orders/{id}/pay</a>.
-<a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html#returns_404_when_order_not_found()">returns_404_when_order_not_found()</a>
-</li>
-</ul>
-</div>
 <div class="tab">
 <h2>Packages</h2>
 <table>
@@ -129,28 +85,38 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>1.504s</td>
+<td>1.240s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
+<a href="packages/com.example.management.application.services.html">com.example.management.application.services</a>
+</td>
+<td>13</td>
+<td>0</td>
+<td>0</td>
+<td>0.595s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
 <a href="packages/com.example.management.domain.model.html">com.example.management.domain.model</a>
 </td>
 <td>28</td>
-<td>3</td>
 <td>0</td>
-<td>0.219s</td>
-<td class="failures">89%</td>
+<td>0</td>
+<td>0.262s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
 <a href="packages/com.example.management.infrastructure.adapters.in.web.html">com.example.management.infrastructure.adapters.in.web</a>
 </td>
 <td>6</td>
-<td>6</td>
 <td>0</td>
-<td>0.005s</td>
-<td class="failures">0%</td>
+<td>0</td>
+<td>0.847s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
 <td class="success">
@@ -159,7 +125,7 @@
 <td>5</td>
 <td>0</td>
 <td>0</td>
-<td>0.022s</td>
+<td>0.018s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -186,7 +152,77 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>1.504s</td>
+<td>1.240s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$CancelOrder.html">com.example.management.application.services.OrderApplicationServiceTest$CancelOrder</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.480s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$CreateOrder.html">com.example.management.application.services.OrderApplicationServiceTest$CreateOrder</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.022s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$DeliverOrder.html">com.example.management.application.services.OrderApplicationServiceTest$DeliverOrder</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.023s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$GetOrderById.html">com.example.management.application.services.OrderApplicationServiceTest$GetOrderById</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.017s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$ListOrders.html">com.example.management.application.services.OrderApplicationServiceTest$ListOrders</a>
+</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.017s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$MarkOrderAsPaid.html">com.example.management.application.services.OrderApplicationServiceTest$MarkOrderAsPaid</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.020s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.management.application.services.OrderApplicationServiceTest$ShipOrder.html">com.example.management.application.services.OrderApplicationServiceTest$ShipOrder</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.016s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -196,28 +232,28 @@
 <td>2</td>
 <td>0</td>
 <td>0</td>
-<td>0.084s</td>
+<td>0.003s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
 <a href="classes/com.example.management.domain.model.MoneyTest.html">com.example.management.domain.model.MoneyTest</a>
 </td>
 <td>8</td>
-<td>1</td>
 <td>0</td>
-<td>0.060s</td>
-<td class="failures">87%</td>
+<td>0</td>
+<td>0.195s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
 <a href="classes/com.example.management.domain.model.OrderItemTest.html">com.example.management.domain.model.OrderItemTest</a>
 </td>
 <td>6</td>
-<td>2</td>
 <td>0</td>
-<td>0.021s</td>
-<td class="failures">66%</td>
+<td>0</td>
+<td>0.026s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
 <td class="success">
@@ -226,7 +262,7 @@
 <td>12</td>
 <td>0</td>
 <td>0</td>
-<td>0.054s</td>
+<td>0.038s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -240,34 +276,34 @@
 <td class="success">-</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
 <a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder.html">com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$CreateOrder</a>
 </td>
 <td>2</td>
-<td>2</td>
 <td>0</td>
-<td>0.001s</td>
-<td class="failures">0%</td>
+<td>0</td>
+<td>0.468s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
 <a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder.html">com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder</a>
 </td>
 <td>2</td>
-<td>2</td>
 <td>0</td>
-<td>0.002s</td>
-<td class="failures">0%</td>
+<td>0</td>
+<td>0.213s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
-<td class="failures">
+<td class="success">
 <a href="classes/com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid.html">com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid</a>
 </td>
 <td>2</td>
-<td>2</td>
 <td>0</td>
-<td>0.002s</td>
-<td class="failures">0%</td>
+<td>0</td>
+<td>0.166s</td>
+<td class="success">100%</td>
 </tr>
 <tr>
 <td class="success">
@@ -276,7 +312,7 @@
 <td>2</td>
 <td>0</td>
 <td>0</td>
-<td>0.012s</td>
+<td>0.011s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -286,7 +322,7 @@
 <td>3</td>
 <td>0</td>
 <td>0</td>
-<td>0.010s</td>
+<td>0.007s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -300,7 +336,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.3</a> at Feb 3, 2026, 9:04:55 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at Feb 3, 2026, 9:09:03 PM</p>
 </div>
 </div>
 </body>
