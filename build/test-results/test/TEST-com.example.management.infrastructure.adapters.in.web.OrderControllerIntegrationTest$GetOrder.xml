@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="GET /api/orders/{id}" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:09:02.914Z" hostname="RubenS" time="0.22">
+<testsuite name="GET /api/orders/{id}" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:11:50.249Z" hostname="RubenS" time="0.206">
   <properties/>
-  <testcase name="returns_200_and_order_when_found()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder" time="0.202"/>
-  <testcase name="returns_404_when_not_found()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder" time="0.011"/>
-  <system-out><![CDATA[2026-02-03T21:09:02.890-05:00  INFO 34723 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder]: GetOrder does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-02-03T21:09:02.901-05:00  INFO 34723 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.management.ManagementApplication for test class com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder
+  <testcase name="returns_200_and_order_when_found()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder" time="0.193"/>
+  <testcase name="returns_404_when_not_found()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder" time="0.01"/>
+  <system-out><![CDATA[2026-02-03T21:11:50.232-05:00  INFO 36420 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder]: GetOrder does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-02-03T21:11:50.239-05:00  INFO 36420 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.management.ManagementApplication for test class com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$GetOrder
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

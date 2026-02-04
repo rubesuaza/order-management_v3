@@ -39,11 +39,10 @@ public final class Order {
     }
 
     private static Money calculateTotal(List<OrderItem> items) {
-        Money sum = items.get(0).getLineTotal();
-        for (int i = 1; i < items.size(); i++) {
-            sum = sum.add(items.get(i).getLineTotal());
-        }
-        return sum;
+        return items.stream()
+                .map(OrderItem::getLineTotal)
+                .reduce(Money::add)
+                .orElseThrow();
     }
 
     public UUID getId() {
@@ -70,6 +69,18 @@ public final class Order {
         return status;
     }
 
+    private boolean canTransitionToShipped() {
+        return status == OrderStatus.PAID;
+    }
+
+    private boolean canTransitionToDelivered() {
+        return status == OrderStatus.SHIPPED;
+    }
+
+    private boolean canBeCancelled() {
+        return status != OrderStatus.SHIPPED && status != OrderStatus.DELIVERED;
+    }
+
     /**
      * Transition to PAID. Fails if total is less than 10.00 USD.
      */
@@ -88,7 +99,7 @@ public final class Order {
      * Transition to SHIPPED. Only allowed when PAID.
      */
     public void ship() {
-        if (status != OrderStatus.PAID) {
+        if (!canTransitionToShipped()) {
             throw new InvalidOrderStateException("Order can only be shipped when PAID");
         }
         status = OrderStatus.SHIPPED;
@@ -98,7 +109,7 @@ public final class Order {
      * Transition to DELIVERED. Only allowed when SHIPPED.
      */
     public void deliver() {
-        if (status != OrderStatus.SHIPPED) {
+        if (!canTransitionToDelivered()) {
             throw new InvalidOrderStateException("Order can only be delivered when SHIPPED");
         }
         status = OrderStatus.DELIVERED;
@@ -108,7 +119,7 @@ public final class Order {
      * Transition to CANCELLED. Only allowed when PENDING or PAID.
      */
     public void cancel() {
-        if (status == OrderStatus.SHIPPED || status == OrderStatus.DELIVERED) {
+        if (!canBeCancelled()) {
             throw new InvalidOrderStateException(
                     "Order cannot be cancelled when already shipped or delivered");
         }

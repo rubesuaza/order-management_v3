@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="save and findById" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:09:03.664Z" hostname="RubenS" time="0.011">
+<testsuite name="save and findById" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:11:50.805Z" hostname="RubenS" time="0.008">
   <properties/>
   <testcase name="findById_returns_empty_when_not_found()" classname="com.example.management.infrastructure.adapters.out.OrderRepositoryContractTest$SaveAndFindById" time="0.002"/>
-  <testcase name="save_persists_order_and_findById_returns_it()" classname="com.example.management.infrastructure.adapters.out.OrderRepositoryContractTest$SaveAndFindById" time="0.003"/>
+  <testcase name="save_persists_order_and_findById_returns_it()" classname="com.example.management.infrastructure.adapters.out.OrderRepositoryContractTest$SaveAndFindById" time="0.002"/>
   <testcase name="save_overwrites_existing_order_with_same_id()" classname="com.example.management.infrastructure.adapters.out.OrderRepositoryContractTest$SaveAndFindById" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

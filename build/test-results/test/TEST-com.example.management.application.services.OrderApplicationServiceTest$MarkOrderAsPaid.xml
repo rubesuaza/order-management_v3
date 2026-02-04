@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="markOrderAsPaid" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:09:00.409Z" hostname="RubenS" time="0.024">
+<testsuite name="markOrderAsPaid" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:11:47.567Z" hostname="RubenS" time="0.023">
   <properties/>
-  <testcase name="shouldMarkOrderAsPaidAndSave()" classname="com.example.management.application.services.OrderApplicationServiceTest$MarkOrderAsPaid" time="0.01"/>
-  <testcase name="shouldThrowWhenOrderNotFound()" classname="com.example.management.application.services.OrderApplicationServiceTest$MarkOrderAsPaid" time="0.01"/>
+  <testcase name="shouldMarkOrderAsPaidAndSave()" classname="com.example.management.application.services.OrderApplicationServiceTest$MarkOrderAsPaid" time="0.011"/>
+  <testcase name="shouldThrowWhenOrderNotFound()" classname="com.example.management.application.services.OrderApplicationServiceTest$MarkOrderAsPaid" time="0.009"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

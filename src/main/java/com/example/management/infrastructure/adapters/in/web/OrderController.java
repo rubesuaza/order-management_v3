@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * REST input adapter for order management.
@@ -56,44 +57,27 @@ public class OrderController {
 
     @PostMapping("/{id}/pay")
     public ResponseEntity<Void> markAsPaid(@PathVariable UUID id) {
-        try {
-            orderManagement.markOrderAsPaid(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.unprocessableEntity().build();
-        }
+        return executeStateTransition(id, orderManagement::markOrderAsPaid);
     }
 
     @PostMapping("/{id}/ship")
     public ResponseEntity<Void> ship(@PathVariable UUID id) {
-        try {
-            orderManagement.shipOrder(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.unprocessableEntity().build();
-        }
+        return executeStateTransition(id, orderManagement::shipOrder);
     }
 
     @PostMapping("/{id}/deliver")
     public ResponseEntity<Void> deliver(@PathVariable UUID id) {
-        try {
-            orderManagement.deliverOrder(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.unprocessableEntity().build();
-        }
+        return executeStateTransition(id, orderManagement::deliverOrder);
     }
 
     @PostMapping("/{id}/cancel")
     public ResponseEntity<Void> cancel(@PathVariable UUID id) {
+        return executeStateTransition(id, orderManagement::cancelOrder);
+    }
+
+    private ResponseEntity<Void> executeStateTransition(UUID orderId, Consumer<UUID> action) {
         try {
-            orderManagement.cancelOrder(id);
+            action.accept(orderId);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

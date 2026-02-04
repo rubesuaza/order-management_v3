@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.management.domain.model.OrderItemTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:08:54.339Z" hostname="RubenS" time="0.04">
+<testsuite name="com.example.management.domain.model.OrderItemTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:11:47.725Z" hostname="RubenS" time="0.02">
   <properties/>
-  <testcase name="shouldAcceptZeroUnitPrice()" classname="com.example.management.domain.model.OrderItemTest" time="0.004"/>
+  <testcase name="shouldAcceptZeroUnitPrice()" classname="com.example.management.domain.model.OrderItemTest" time="0.001"/>
   <testcase name="getLineTotal_shouldReturnUnitPriceTimesQuantity()" classname="com.example.management.domain.model.OrderItemTest" time="0.002"/>
   <testcase name="shouldRejectZeroQuantity()" classname="com.example.management.domain.model.OrderItemTest" time="0.003"/>
-  <testcase name="shouldCreateOrderItemWithValidQuantityAndPrice()" classname="com.example.management.domain.model.OrderItemTest" time="0.006"/>
-  <testcase name="shouldRejectNegativeUnitPrice()" classname="com.example.management.domain.model.OrderItemTest" time="0.008"/>
+  <testcase name="shouldCreateOrderItemWithValidQuantityAndPrice()" classname="com.example.management.domain.model.OrderItemTest" time="0.001"/>
+  <testcase name="shouldRejectNegativeUnitPrice()" classname="com.example.management.domain.model.OrderItemTest" time="0.002"/>
   <testcase name="shouldRejectNegativeQuantity()" classname="com.example.management.domain.model.OrderItemTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

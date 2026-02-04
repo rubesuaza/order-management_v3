@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="POST /api/orders/{id}/pay" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:09:02.709Z" hostname="RubenS" time="0.173">
+<testsuite name="POST /api/orders/{id}/pay" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T02:11:50.042Z" hostname="RubenS" time="0.182">
   <properties/>
-  <testcase name="returns_404_when_order_not_found()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid" time="0.153"/>
-  <testcase name="returns_204_when_order_exists_and_total_ge_10()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid" time="0.013"/>
-  <system-out><![CDATA[2026-02-03T21:09:00.721-05:00  INFO 34723 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid]: MarkAsPaid does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-02-03T21:09:00.732-05:00  INFO 34723 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.management.ManagementApplication for test class com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid
+  <testcase name="returns_404_when_order_not_found()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid" time="0.168"/>
+  <testcase name="returns_204_when_order_exists_and_total_ge_10()" classname="com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid" time="0.009"/>
+  <system-out><![CDATA[2026-02-03T21:11:47.948-05:00  INFO 36420 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid]: MarkAsPaid does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-02-03T21:11:47.959-05:00  INFO 36420 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.management.ManagementApplication for test class com.example.management.infrastructure.adapters.in.web.OrderControllerIntegrationTest$MarkAsPaid
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,12 +14,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2026-02-03T21:09:00.891-05:00  INFO 34723 --- [    Test worker] m.i.a.i.w.OrderControllerIntegrationTest : Starting OrderControllerIntegrationTest using Java 21.0.9 with PID 34723 (started by root in /root/agent_code_generator/workspaces/order_management_workspace/order-management_v3)
-2026-02-03T21:09:00.892-05:00  INFO 34723 --- [    Test worker] m.i.a.i.w.OrderControllerIntegrationTest : No active profile set, falling back to 1 default profile: "default"
-2026-02-03T21:09:01.831-05:00  INFO 34723 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-02-03T21:09:01.832-05:00  INFO 34723 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-02-03T21:09:01.839-05:00  INFO 34723 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2026-02-03T21:09:01.861-05:00  INFO 34723 --- [    Test worker] m.i.a.i.w.OrderControllerIntegrationTest : Started OrderControllerIntegrationTest in 1.116 seconds (process running for 9.122)
+2026-02-03T21:11:48.081-05:00  INFO 36420 --- [    Test worker] m.i.a.i.w.OrderControllerIntegrationTest : Starting OrderControllerIntegrationTest using Java 21.0.9 with PID 36420 (started by root in /root/agent_code_generator/workspaces/order_management_workspace/order-management_v3)
+2026-02-03T21:11:48.082-05:00  INFO 36420 --- [    Test worker] m.i.a.i.w.OrderControllerIntegrationTest : No active profile set, falling back to 1 default profile: "default"
+2026-02-03T21:11:49.205-05:00  INFO 36420 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-02-03T21:11:49.206-05:00  INFO 36420 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-02-03T21:11:49.215-05:00  INFO 36420 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-02-03T21:11:49.241-05:00  INFO 36420 --- [    Test worker] m.i.a.i.w.OrderControllerIntegrationTest : Started OrderControllerIntegrationTest in 1.269 seconds (process running for 9.171)
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -29,12 +29,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2026-02-03T21:09:01.948-05:00  INFO 34723 --- [    Test worker] rderControllerIntegrationTest$MarkAsPaid : Starting OrderControllerIntegrationTest.MarkAsPaid using Java 21.0.9 with PID 34723 (started by root in /root/agent_code_generator/workspaces/order_management_workspace/order-management_v3)
-2026-02-03T21:09:01.950-05:00  INFO 34723 --- [    Test worker] rderControllerIntegrationTest$MarkAsPaid : No active profile set, falling back to 1 default profile: "default"
-2026-02-03T21:09:02.678-05:00  INFO 34723 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-02-03T21:09:02.680-05:00  INFO 34723 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-02-03T21:09:02.684-05:00  INFO 34723 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
-2026-02-03T21:09:02.703-05:00  INFO 34723 --- [    Test worker] rderControllerIntegrationTest$MarkAsPaid : Started OrderControllerIntegrationTest.MarkAsPaid in 0.819 seconds (process running for 9.964)
+2026-02-03T21:11:49.308-05:00  INFO 36420 --- [    Test worker] rderControllerIntegrationTest$MarkAsPaid : Starting OrderControllerIntegrationTest.MarkAsPaid using Java 21.0.9 with PID 36420 (started by root in /root/agent_code_generator/workspaces/order_management_workspace/order-management_v3)
+2026-02-03T21:11:49.309-05:00  INFO 36420 --- [    Test worker] rderControllerIntegrationTest$MarkAsPaid : No active profile set, falling back to 1 default profile: "default"
+2026-02-03T21:11:50.024-05:00  INFO 36420 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-02-03T21:11:50.025-05:00  INFO 36420 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-02-03T21:11:50.026-05:00  INFO 36420 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-02-03T21:11:50.037-05:00  INFO 36420 --- [    Test worker] rderControllerIntegrationTest$MarkAsPaid : Started OrderControllerIntegrationTest.MarkAsPaid in 0.778 seconds (process running for 9.968)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
