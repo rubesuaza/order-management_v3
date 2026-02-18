@@ -1,5 +1,6 @@
 using OrderManagement.Domain.Exceptions;
 using OrderManagement.Domain.ValueObjects;
+using System.Linq;
 
 namespace OrderManagement.Domain.Entities;
 
@@ -39,14 +40,37 @@ public class Order
         return order;
     }
 
+    public static Order CreateExisting(
+        Guid id,
+        List<OrderItem> items,
+        string currency,
+        OrderStatus status,
+        Address? shippingAddress,
+        Address? billingAddress)
+    {
+        if (items == null || items.Count == 0)
+        {
+            throw new InvalidOrderException("Order must contain at least one item.");
+        }
+
+        var order = new Order
+        {
+            Id = id,
+            Items = new List<OrderItem>(items),
+            Status = status,
+            Currency = currency,
+            ShippingAddress = shippingAddress,
+            BillingAddress = billingAddress
+        };
+
+        return order;
+    }
+
     public Money GetTotalAmount()
     {
-        var total = new Money(0m, Currency);
-        foreach (var item in Items)
-        {
-            total = total + item.GetTotal();
-        }
-        return total;
+        return Items.Aggregate(
+            new Money(0m, Currency),
+            (total, item) => total + item.GetTotal());
     }
 
     public void MarkAsPaid()

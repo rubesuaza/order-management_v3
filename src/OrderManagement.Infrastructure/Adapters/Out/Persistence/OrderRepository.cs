@@ -19,6 +19,7 @@ public class OrderRepository : IOrderRepository
     public async Task<Order?> GetByIdAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
         var orderEntity = await _dbContext.Orders
+            .AsNoTracking()
             .Include(o => o.Items)
             .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
 
@@ -33,6 +34,7 @@ public class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var orderEntities = await _dbContext.Orders
+            .AsNoTracking()
             .Include(o => o.Items)
             .ToListAsync(cancellationToken);
 
@@ -120,44 +122,20 @@ public class OrderRepository : IOrderRepository
 
     private static Order MapToDomain(OrderEntity entity)
     {
-        var order = Order.Create(
-            entity.Items.Select(item => new OrderItem(
+        var items = entity.Items
+            .Select(item => new OrderItem(
                 item.ProductId,
                 item.ProductName,
                 item.Quantity,
-                new Money(item.UnitPriceAmount, item.UnitPriceCurrency)
-            )).ToList(),
-            entity.Currency
-        );
+                new Money(item.UnitPriceAmount, item.UnitPriceCurrency)))
+            .ToList();
 
-        // Use reflection or a factory method to set private properties
-        // Since Order has private setters, we need to reconstruct it properly
-        // For now, we'll create a new order and apply state changes
-        
-        // Set the ID using reflection (not ideal, but necessary due to private setters)
-        var idProperty = typeof(Order).GetProperty("Id", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-        if (idProperty != null && idProperty.CanWrite)
-        {
-            idProperty.SetValue(order, entity.Id);
-        }
-
-        // Set status
-        var statusProperty = typeof(Order).GetProperty("Status", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-        if (statusProperty != null && statusProperty.CanWrite)
-        {
-            statusProperty.SetValue(order, entity.Status);
-        }
-
-        if (entity.ShippingAddress != null)
-        {
-            order.SetShippingAddress(entity.ShippingAddress);
-        }
-
-        if (entity.BillingAddress != null)
-        {
-            order.SetBillingAddress(entity.BillingAddress);
-        }
-
-        return order;
+        return Order.CreateExisting(
+            entity.Id,
+            items,
+            entity.Currency,
+            entity.Status,
+            entity.ShippingAddress,
+            entity.BillingAddress);
     }
 }
