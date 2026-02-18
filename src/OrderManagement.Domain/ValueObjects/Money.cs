@@ -1,0 +1,36 @@
+using OrderManagement.Domain.Exceptions;
+
+namespace OrderManagement.Domain.ValueObjects;
+
+public record Money(decimal Amount, string Currency)
+{
+    public static Money operator +(Money left, Money right)
+    {
+        if (left.Currency != right.Currency)
+        {
+            throw new CurrencyMismatchException(left.Currency, right.Currency);
+        }
+
+        return new Money(left.Amount + right.Amount, left.Currency);
+    }
+
+    public static Money operator -(Money left, Money right)
+    {
+        if (left.Currency != right.Currency)
+        {
+            throw new CurrencyMismatchException(left.Currency, right.Currency);
+        }
+
+        return new Money(left.Amount - right.Amount, left.Currency);
+    }
+
+    public static Money operator *(Money money, decimal multiplier)
+    {
+        return new Money(money.Amount * multiplier, money.Currency);
+    }
+
+    public static Money operator *(decimal multiplier, Money money)
+    {
+        return money * multiplier;
+    }
+}
