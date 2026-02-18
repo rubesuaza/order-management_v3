@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "86tgwhCqHB0=",
+  "dgSpecHash": "+ble67CzDDE=",
   "success": true,
   "projectFilePath": "/root/agent_code_generator/workspaces/order_management_net_workspace/order-management_v3/tests/OrderManagement.Domain.Tests/OrderManagement.Domain.Tests.csproj",
   "expectedPackageFiles": [

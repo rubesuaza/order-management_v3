@@ -125,4 +125,46 @@ public class MoneyTests
         // Act & Assert
         money1.Should().NotBe(money2);
     }
+
+    [Fact]
+    public void Multiply_WithDecimalOnLeft_ShouldReturnMultipliedAmount()
+    {
+        // Arrange
+        var money = new Money(50.00m, "USD");
+
+        // Act
+        var result = 2.5m * money;
+
+        // Assert
+        result.Amount.Should().Be(125.00m);
+        result.Currency.Should().Be("USD");
+    }
+
+    [Fact]
+    public void Multiply_WithZero_ShouldReturnZero()
+    {
+        // Arrange
+        var money = new Money(50.00m, "USD");
+
+        // Act
+        var result = money * 0m;
+
+        // Assert
+        result.Amount.Should().Be(0m);
+        result.Currency.Should().Be("USD");
+    }
+
+    [Fact]
+    public void Multiply_WithNegativeMultiplier_ShouldReturnNegativeAmount()
+    {
+        // Arrange
+        var money = new Money(50.00m, "USD");
+
+        // Act
+        var result = money * -1m;
+
+        // Assert
+        result.Amount.Should().Be(-50.00m);
+        result.Currency.Should().Be("USD");
+    }
 }

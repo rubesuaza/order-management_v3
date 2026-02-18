@@ -245,4 +245,84 @@ public class OrderTests
         act.Should().Throw<InvalidOrderStateException>()
             .WithMessage("*cannot transition from Cancelled to Cancelled*");
     }
+
+    [Fact]
+    public void SetShippingAddress_ShouldSetShippingAddress()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var items = new List<OrderItem>
+        {
+            new OrderItem(productId, "Product 1", 1, new Money(10.00m, "USD"))
+        };
+        var order = Order.Create(items, "USD");
+        var address = new Address("123 Main St", "New York", "NY", "10001", "USA");
+
+        // Act
+        order.SetShippingAddress(address);
+
+        // Assert
+        order.ShippingAddress.Should().Be(address);
+    }
+
+    [Fact]
+    public void SetBillingAddress_ShouldSetBillingAddress()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var items = new List<OrderItem>
+        {
+            new OrderItem(productId, "Product 1", 1, new Money(10.00m, "USD"))
+        };
+        var order = Order.Create(items, "USD");
+        var address = new Address("456 Oak Ave", "Los Angeles", "CA", "90001", "USA");
+
+        // Act
+        order.SetBillingAddress(address);
+
+        // Assert
+        order.BillingAddress.Should().Be(address);
+    }
+
+    [Fact]
+    public void SetShippingAddress_ShouldUpdateExistingShippingAddress()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var items = new List<OrderItem>
+        {
+            new OrderItem(productId, "Product 1", 1, new Money(10.00m, "USD"))
+        };
+        var order = Order.Create(items, "USD");
+        var address1 = new Address("123 Main St", "New York", "NY", "10001", "USA");
+        var address2 = new Address("789 Pine Rd", "Chicago", "IL", "60601", "USA");
+        order.SetShippingAddress(address1);
+
+        // Act
+        order.SetShippingAddress(address2);
+
+        // Assert
+        order.ShippingAddress.Should().Be(address2);
+    }
+
+    [Fact]
+    public void SetBillingAddress_ShouldUpdateExistingBillingAddress()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var items = new List<OrderItem>
+        {
+            new OrderItem(productId, "Product 1", 1, new Money(10.00m, "USD"))
+        };
+        var order = Order.Create(items, "USD");
+        var address1 = new Address("123 Main St", "New York", "NY", "10001", "USA");
+        var address2 = new Address("789 Pine Rd", "Chicago", "IL", "60601", "USA");
+        order.SetBillingAddress(address1);
+
+        // Act
+        order.SetBillingAddress(address2);
+
+        // Assert
+        order.BillingAddress.Should().Be(address2);
+    }
 }
