@@ -42,7 +42,7 @@ class OrderItemTest {
         
         assertThatThrownBy(() -> new OrderItem(productId, 0, unitPrice))
                 .isInstanceOf(InvalidItemException.class)
-                .hasMessageContaining("Quantity must be greater than zero");
+                .hasMessageContaining("Quantity must be strictly greater than zero");
     }
 
     @Test
@@ -52,7 +52,7 @@ class OrderItemTest {
         
         assertThatThrownBy(() -> new OrderItem(productId, -1, unitPrice))
                 .isInstanceOf(InvalidItemException.class)
-                .hasMessageContaining("Quantity must be greater than zero");
+                .hasMessageContaining("Quantity must be strictly greater than zero");
     }
 
     @Test
