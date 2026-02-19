@@ -53,6 +53,17 @@ public final class Money {
         return new Money(this.amount.multiply(new BigDecimal(multiplier)), this.currency);
     }
 
+    /**
+     * Compares this Money with another Money object.
+     * @param other The other Money to compare
+     * @return Negative if this is less than other, zero if equal, positive if greater
+     * @throws CurrencyMismatchException if currencies don't match
+     */
+    public int compareTo(Money other) {
+        validateSameCurrency(other);
+        return this.amount.compareTo(other.amount);
+    }
+
     private void validateSameCurrency(Money other) {
         if (!this.currency.equals(other.currency)) {
             throw new CurrencyMismatchException(
