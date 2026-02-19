@@ -107,7 +107,25 @@ public class OrderEntity {
         return items;
     }
 
-    public void setItems(List<OrderItemEntity> items) {
-        this.items = items;
+    /**
+     * Adds an item to the order.
+     * Manages the bidirectional relationship correctly.
+     */
+    public void addItem(OrderItemEntity item) {
+        if (item != null && !this.items.contains(item)) {
+            this.items.add(item);
+            item.setOrder(this);
+        }
+    }
+
+    /**
+     * Removes an item from the order.
+     * Manages the bidirectional relationship correctly.
+     */
+    public void removeItem(OrderItemEntity item) {
+        if (item != null && this.items.contains(item)) {
+            this.items.remove(item);
+            item.setOrder(null);
+        }
     }
 }

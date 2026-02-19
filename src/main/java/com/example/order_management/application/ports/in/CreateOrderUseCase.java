@@ -15,10 +15,5 @@ public interface CreateOrderUseCase {
      * @param items The order items
      * @return The created order
      */
-    Order createOrder(UUID customerId, List<OrderItemRequest> items);
-
-    /**
-     * Request DTO for order item creation.
-     */
-    record OrderItemRequest(UUID productId, int quantity, java.math.BigDecimal unitPrice) {}
+    Order createOrder(UUID customerId, List<CreateOrderItemCommand> items);
 }

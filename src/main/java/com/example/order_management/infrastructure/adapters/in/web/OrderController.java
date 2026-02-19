@@ -1,9 +1,11 @@
 package com.example.order_management.infrastructure.adapters.in.web;
 
+import com.example.order_management.application.ports.in.CreateOrderItemCommand;
 import com.example.order_management.application.ports.in.CreateOrderUseCase;
 import com.example.order_management.application.ports.in.GetOrderUseCase;
 import com.example.order_management.application.ports.in.PayOrderUseCase;
 import com.example.order_management.domain.exception.InvalidOrderStateException;
+import com.example.order_management.domain.exception.OrderNotFoundException;
 import com.example.order_management.infrastructure.adapters.in.web.dto.CreateOrderRequest;
 import com.example.order_management.infrastructure.adapters.in.web.dto.CreateOrderResponse;
 import com.example.order_management.infrastructure.adapters.in.web.dto.OrderResponse;
@@ -47,15 +49,15 @@ public class OrderController {
      */
     @PostMapping
     public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        var orderItemRequests = request.items().stream()
-                .map(item -> new CreateOrderUseCase.OrderItemRequest(
+        var orderItemCommands = request.items().stream()
+                .map(item -> new CreateOrderItemCommand(
                         item.productId(),
                         item.quantity(),
                         item.unitPrice()
                 ))
                 .collect(Collectors.toList());
 
-        var order = createOrderUseCase.createOrder(request.customerId(), orderItemRequests);
+        var order = createOrderUseCase.createOrder(request.customerId(), orderItemCommands);
         var response = dtoMapper.toCreateResponse(order);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -85,7 +87,7 @@ public class OrderController {
         } catch (InvalidOrderStateException e) {
             // Order cannot be paid (e.g., already paid, cancelled, or minimum value not met)
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (IllegalArgumentException e) {
+        } catch (OrderNotFoundException e) {
             // Order not found
             return ResponseEntity.notFound().build();
         }

@@ -75,9 +75,8 @@ class OrderMapperTest {
 
         OrderItemEntity itemEntity1 = new OrderItemEntity(productId1, 2, new BigDecimal("10.00"));
         OrderItemEntity itemEntity2 = new OrderItemEntity(productId2, 1, new BigDecimal("15.00"));
-        itemEntity1.setOrder(entity);
-        itemEntity2.setOrder(entity);
-        entity.setItems(List.of(itemEntity1, itemEntity2));
+        entity.addItem(itemEntity1);
+        entity.addItem(itemEntity2);
 
         // Act
         Order order = orderMapper.toDomain(entity);
@@ -132,39 +131,68 @@ class OrderMapperTest {
     }
 
     @Test
-    void shouldPreserveAllOrderStatuses() {
+    void shouldPreservePendingStatus() {
         // Arrange
         Order order = new Order(customerId, List.of(
                 new OrderItem(productId1, 1, new Money(new BigDecimal("10.00")))
         ));
 
-        // Test all status transitions
-        OrderStatus[] statuses = {OrderStatus.PENDING, OrderStatus.PAID, OrderStatus.SHIPPED, OrderStatus.DELIVERED};
-        
-        for (OrderStatus status : statuses) {
-            // Set status using reflection or methods
-            if (status == OrderStatus.PAID) {
-                order.markAsPaid();
-            } else if (status == OrderStatus.SHIPPED) {
-                order.markAsPaid();
-                order.markAsShipped();
-            } else if (status == OrderStatus.DELIVERED) {
-                order.markAsPaid();
-                order.markAsShipped();
-                order.markAsDelivered();
-            }
+        // Act
+        OrderEntity entity = orderMapper.toEntity(order);
+        Order convertedBack = orderMapper.toDomain(entity);
 
-            // Act
-            OrderEntity entity = orderMapper.toEntity(order);
-            Order convertedBack = orderMapper.toDomain(entity);
+        // Assert
+        assertThat(convertedBack.getStatus()).isEqualTo(OrderStatus.PENDING);
+    }
 
-            // Assert
-            assertThat(convertedBack.getStatus()).isEqualTo(status);
-            
-            // Reset for next iteration
-            order = new Order(customerId, List.of(
-                    new OrderItem(productId1, 1, new Money(new BigDecimal("10.00")))
-            ));
-        }
+    @Test
+    void shouldPreservePaidStatus() {
+        // Arrange
+        Order order = new Order(customerId, List.of(
+                new OrderItem(productId1, 1, new Money(new BigDecimal("10.00")))
+        ));
+        order.markAsPaid();
+
+        // Act
+        OrderEntity entity = orderMapper.toEntity(order);
+        Order convertedBack = orderMapper.toDomain(entity);
+
+        // Assert
+        assertThat(convertedBack.getStatus()).isEqualTo(OrderStatus.PAID);
+    }
+
+    @Test
+    void shouldPreserveShippedStatus() {
+        // Arrange
+        Order order = new Order(customerId, List.of(
+                new OrderItem(productId1, 1, new Money(new BigDecimal("10.00")))
+        ));
+        order.markAsPaid();
+        order.markAsShipped();
+
+        // Act
+        OrderEntity entity = orderMapper.toEntity(order);
+        Order convertedBack = orderMapper.toDomain(entity);
+
+        // Assert
+        assertThat(convertedBack.getStatus()).isEqualTo(OrderStatus.SHIPPED);
+    }
+
+    @Test
+    void shouldPreserveDeliveredStatus() {
+        // Arrange
+        Order order = new Order(customerId, List.of(
+                new OrderItem(productId1, 1, new Money(new BigDecimal("10.00")))
+        ));
+        order.markAsPaid();
+        order.markAsShipped();
+        order.markAsDelivered();
+
+        // Act
+        OrderEntity entity = orderMapper.toEntity(order);
+        Order convertedBack = orderMapper.toDomain(entity);
+
+        // Assert
+        assertThat(convertedBack.getStatus()).isEqualTo(OrderStatus.DELIVERED);
     }
 }

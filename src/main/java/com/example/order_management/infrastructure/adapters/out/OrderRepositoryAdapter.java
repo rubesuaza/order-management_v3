@@ -34,7 +34,8 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     @Override
     public Optional<Order> findById(UUID orderId) {
-        return jpaRepository.findById(orderId)
+        // Use optimized query with JOIN FETCH to avoid N+1 query problems
+        return jpaRepository.findByIdWithItems(orderId)
                 .map(mapper::toDomain);
     }
 }

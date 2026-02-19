@@ -47,6 +47,31 @@ class OrderControllerIntegrationTest {
         return mockMvc;
     }
 
+    /**
+     * Helper method to create an order for testing.
+     * Reduces code duplication across test methods.
+     */
+    private CreateOrderResponse createOrder(UUID customerId, UUID productId, BigDecimal itemPrice, int quantity) throws Exception {
+        CreateOrderRequest createRequest = new CreateOrderRequest(
+                customerId,
+                List.of(new CreateOrderRequest.OrderItemRequest(
+                        productId,
+                        quantity,
+                        itemPrice
+                ))
+        );
+
+        String createResponseJson = getMockMvc().perform(post("/api/v1/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createRequest)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        return objectMapper.readValue(createResponseJson, CreateOrderResponse.class);
+    }
+
     @Test
     void shouldCreateOrder() throws Exception {
         // Given
@@ -96,24 +121,7 @@ class OrderControllerIntegrationTest {
         // Given - create an order first
         UUID customerId = UUID.randomUUID();
         UUID productId = UUID.randomUUID();
-        CreateOrderRequest createRequest = new CreateOrderRequest(
-                customerId,
-                List.of(new CreateOrderRequest.OrderItemRequest(
-                        productId,
-                        1,
-                        new BigDecimal("20.00")
-                ))
-        );
-
-        String createResponseJson = getMockMvc().perform(post("/api/v1/orders")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createRequest)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        CreateOrderResponse createResponse = objectMapper.readValue(createResponseJson, CreateOrderResponse.class);
+        CreateOrderResponse createResponse = createOrder(customerId, productId, new BigDecimal("20.00"), 1);
         UUID orderId = createResponse.orderId();
 
         // When & Then
@@ -145,24 +153,7 @@ class OrderControllerIntegrationTest {
         // Given - create an order with minimum value (>= 10.00)
         UUID customerId = UUID.randomUUID();
         UUID productId = UUID.randomUUID();
-        CreateOrderRequest createRequest = new CreateOrderRequest(
-                customerId,
-                List.of(new CreateOrderRequest.OrderItemRequest(
-                        productId,
-                        1,
-                        new BigDecimal("20.00")
-                ))
-        );
-
-        String createResponseJson = getMockMvc().perform(post("/api/v1/orders")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createRequest)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        CreateOrderResponse createResponse = objectMapper.readValue(createResponseJson, CreateOrderResponse.class);
+        CreateOrderResponse createResponse = createOrder(customerId, productId, new BigDecimal("20.00"), 1);
         UUID orderId = createResponse.orderId();
 
         // When & Then
@@ -184,24 +175,7 @@ class OrderControllerIntegrationTest {
         // Given - create an order below minimum value (< 10.00)
         UUID customerId = UUID.randomUUID();
         UUID productId = UUID.randomUUID();
-        CreateOrderRequest createRequest = new CreateOrderRequest(
-                customerId,
-                List.of(new CreateOrderRequest.OrderItemRequest(
-                        productId,
-                        1,
-                        new BigDecimal("5.00")
-                ))
-        );
-
-        String createResponseJson = getMockMvc().perform(post("/api/v1/orders")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createRequest)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        CreateOrderResponse createResponse = objectMapper.readValue(createResponseJson, CreateOrderResponse.class);
+        CreateOrderResponse createResponse = createOrder(customerId, productId, new BigDecimal("5.00"), 1);
         UUID orderId = createResponse.orderId();
 
         // When & Then - should return conflict

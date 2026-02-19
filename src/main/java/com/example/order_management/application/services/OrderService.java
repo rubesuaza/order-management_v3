@@ -1,5 +1,6 @@
 package com.example.order_management.application.services;
 
+import com.example.order_management.application.ports.in.CreateOrderItemCommand;
 import com.example.order_management.application.ports.in.CreateOrderUseCase;
 import com.example.order_management.application.ports.in.GetOrderUseCase;
 import com.example.order_management.application.ports.in.PayOrderUseCase;
@@ -30,7 +31,7 @@ public class OrderService implements CreateOrderUseCase, GetOrderUseCase, PayOrd
     }
 
     @Override
-    public Order createOrder(UUID customerId, List<OrderItemRequest> items) {
+    public Order createOrder(UUID customerId, List<CreateOrderItemCommand> items) {
         List<OrderItem> domainItems = items.stream()
                 .map(item -> new OrderItem(
                         item.productId(),
@@ -52,7 +53,7 @@ public class OrderService implements CreateOrderUseCase, GetOrderUseCase, PayOrd
     @Override
     public Order payOrder(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
+                .orElseThrow(() -> new com.example.order_management.domain.exception.OrderNotFoundException(orderId));
         
         order.markAsPaid();
         return orderRepository.save(order);

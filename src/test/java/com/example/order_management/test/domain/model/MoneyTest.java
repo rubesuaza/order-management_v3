@@ -1,6 +1,7 @@
-package com.example.order_management.domain.model;
+package com.example.order_management.test.domain.model;
 
 import com.example.order_management.domain.exception.CurrencyMismatchException;
+import com.example.order_management.domain.model.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
