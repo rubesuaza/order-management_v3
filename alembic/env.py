@@ -24,7 +24,9 @@ if database_url and "asyncpg" in database_url:
     database_url = database_url.replace("postgresql+asyncpg", "postgresql")
 config.set_main_option("sqlalchemy.url", database_url or "sqlite:///./order_management.db")
 
-target_metadata = None  # Se configurará cuando existan modelos
+from order_management.infrastructure.adapters.out.persistence.models import Base
+
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:

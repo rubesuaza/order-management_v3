@@ -5,6 +5,7 @@ from order_management.domain.exceptions.base import (
     DomainError,
     InvalidItemError,
     InvalidOrderStateError,
+    OrderNotFoundError,
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "InvalidOrderStateError",
     "InvalidItemError",
     "CurrencyMismatchError",
+    "OrderNotFoundError",
 ]

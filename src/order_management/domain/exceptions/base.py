@@ -15,3 +15,7 @@ class InvalidItemError(DomainError):
 
 class CurrencyMismatchError(DomainError):
     """Error para operaciones con monedas diferentes."""
+
+
+class OrderNotFoundError(DomainError):
+    """Error cuando un pedido no existe."""
