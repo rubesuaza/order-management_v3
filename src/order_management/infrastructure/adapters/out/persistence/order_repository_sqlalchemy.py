@@ -60,6 +60,8 @@ class OrderRepositorySqlAlchemy(OrderRepository):
         return order_model_to_domain(model)
 
     async def exists(self, order_id: UUID) -> bool:
-        """Verifica si un pedido existe."""
-        order = await self.get_by_id(order_id)
-        return order is not None
+        """Verifica si un pedido existe (query ligera, sin cargar ítems)."""
+        result = await self._session.execute(
+            select(OrderModel.id).where(OrderModel.id == str(order_id)).limit(1)
+        )
+        return result.scalar_one_or_none() is not None

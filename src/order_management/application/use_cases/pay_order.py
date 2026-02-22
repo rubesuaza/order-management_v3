@@ -1,4 +1,4 @@
-"""Caso de uso: Pagar pedido."""
+"""Use case: Pay order."""
 
 from uuid import UUID
 
@@ -8,7 +8,7 @@ from order_management.domain.exceptions import OrderNotFoundError
 from order_management.domain.models.order import Order
 
 
-class PayOrderUseCase:
+class PayOrderUseCase(PayOrderPort):
     """Implementación del caso de uso de pagar pedido."""
 
     def __init__(self, order_repository: OrderRepository) -> None:

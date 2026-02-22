@@ -1,4 +1,4 @@
-"""Caso de uso: Obtener detalle de pedido."""
+"""Use case: Get order details."""
 
 from uuid import UUID
 
@@ -8,7 +8,7 @@ from order_management.domain.exceptions import OrderNotFoundError
 from order_management.domain.models.order import Order
 
 
-class GetOrderUseCase:
+class GetOrderUseCase(GetOrderPort):
     """Implementación del caso de uso de obtener pedido."""
 
     def __init__(self, order_repository: OrderRepository) -> None:

@@ -17,7 +17,7 @@ from order_management.infrastructure.adapters.out.persistence.models import (
 
 
 def test_order_domain_to_model() -> None:
-    """order_domain_to_model debe convertir Order a OrderModel."""
+    """order_domain_to_model must convert Order to OrderModel."""
     # Arrange
     order_id = uuid4()
     customer_id = uuid4()
@@ -33,8 +33,8 @@ def test_order_domain_to_model() -> None:
                 unit_price=Money(Decimal("10.50")),
             ),
         ],
+        created_at=created_at,
     )
-    object.__setattr__(order, "created_at", created_at)
 
     # Act
     model = order_domain_to_model(order)
@@ -54,7 +54,7 @@ def test_order_domain_to_model() -> None:
 
 
 def test_order_model_to_domain() -> None:
-    """order_model_to_domain debe convertir OrderModel a Order."""
+    """order_model_to_domain must convert OrderModel to Order."""
     # Arrange
     order_id = uuid4()
     customer_id = uuid4()
@@ -94,7 +94,7 @@ def test_order_model_to_domain() -> None:
 
 
 def test_order_domain_to_model_and_back_roundtrip() -> None:
-    """Conversión dominio -> modelo -> dominio debe preservar datos."""
+    """Domain -> model -> domain conversion must preserve data."""
     # Arrange
     order = Order(
         id=uuid4(),
@@ -107,7 +107,8 @@ def test_order_domain_to_model_and_back_roundtrip() -> None:
             ),
         ],
     )
-    object.__setattr__(order, "status", OrderStatus.SHIPPED)
+    order.mark_paid()
+    order.mark_shipped()
 
     # Act
     model = order_domain_to_model(order)

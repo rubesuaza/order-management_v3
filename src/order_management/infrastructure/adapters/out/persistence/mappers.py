@@ -12,7 +12,7 @@ from .models import OrderItemModel, OrderModel
 
 
 def order_model_to_domain(model: OrderModel) -> Order:
-    """Convierte OrderModel a entidad de dominio Order."""
+    """Converts OrderModel to domain Order entity."""
     items = [
         OrderItem(
             product_id=UUID(str(item.product_id)),
@@ -21,11 +21,13 @@ def order_model_to_domain(model: OrderModel) -> Order:
         )
         for item in model.items
     ]
-    order = Order(customer_id=UUID(str(model.customer_id)), items=items)
-    object.__setattr__(order, "id", UUID(str(model.id)))
-    object.__setattr__(order, "status", OrderStatus(model.status))
-    object.__setattr__(order, "created_at", model.created_at)
-    return order
+    return Order(
+        id=UUID(str(model.id)),
+        customer_id=UUID(str(model.customer_id)),
+        items=items,
+        status=OrderStatus(model.status),
+        created_at=model.created_at,
+    )
 
 
 def order_domain_to_model(order: Order) -> OrderModel:

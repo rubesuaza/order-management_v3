@@ -6,7 +6,11 @@ from uuid import uuid4
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 
-from order_management.application.ports.in_.create_order import CreateOrderInput, CreateOrderResult
+from order_management.application.ports.in_.create_order import (
+    CreateOrderInput,
+    CreateOrderResult,
+    OrderItemInput,
+)
 from order_management.application.use_cases.create_order import CreateOrderUseCase
 from order_management.domain.exceptions import InvalidItemError
 from order_management.domain.models import Money, Order, OrderItem, OrderStatus
@@ -35,7 +39,7 @@ async def test_create_order_succeeds_and_persists(
     input_data = CreateOrderInput(
         customer_id=customer_id,
         items=[
-            {"product_id": product_id, "quantity": 2, "unit_price": "10.50"},
+            OrderItemInput(product_id=product_id, quantity=2, unit_price=Decimal("10.50")),
         ],
     )
     saved_order = Order(
@@ -75,8 +79,8 @@ async def test_create_order_with_multiple_items(
     input_data = CreateOrderInput(
         customer_id=customer_id,
         items=[
-            {"product_id": product1_id, "quantity": 1, "unit_price": "25.00"},
-            {"product_id": product2_id, "quantity": 3, "unit_price": "5.00"},
+            OrderItemInput(product_id=product1_id, quantity=1, unit_price=Decimal("25.00")),
+            OrderItemInput(product_id=product2_id, quantity=3, unit_price=Decimal("5.00")),
         ],
     )
     mock_repository.save.side_effect = lambda o: o  # retorna el mismo order
@@ -101,7 +105,9 @@ async def test_create_order_with_custom_currency(
     input_data = CreateOrderInput(
         customer_id=customer_id,
         items=[
-            {"product_id": product_id, "quantity": 1, "unit_price": "10.00", "currency": "EUR"},
+            OrderItemInput(
+                product_id=product_id, quantity=1, unit_price=Decimal("10.00"), currency="EUR"
+            ),
         ],
     )
     mock_repository.save.side_effect = lambda o: o
@@ -139,7 +145,7 @@ async def test_create_order_with_invalid_item_quantity_raises(
     # Arrange
     input_data = CreateOrderInput(
         customer_id=uuid4(),
-        items=[{"product_id": uuid4(), "quantity": 0, "unit_price": "10.00"}],
+        items=[OrderItemInput(product_id=uuid4(), quantity=0, unit_price=Decimal("10.00"))],
     )
 
     # Act & Assert
@@ -156,7 +162,7 @@ async def test_create_order_with_negative_price_raises(
     # Arrange
     input_data = CreateOrderInput(
         customer_id=uuid4(),
-        items=[{"product_id": uuid4(), "quantity": 1, "unit_price": "-5.00"}],
+        items=[OrderItemInput(product_id=uuid4(), quantity=1, unit_price=Decimal("-5.00"))],
     )
 
     # Act & Assert

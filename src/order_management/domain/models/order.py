@@ -15,13 +15,13 @@ MINIMUM_ORDER_AMOUNT = Decimal("10.00")
 
 @dataclass
 class Order:
-    """Raíz del agregado de pedidos."""
+    """Order aggregate root."""
 
     customer_id: UUID
     items: list[OrderItem]
     id: UUID = field(default_factory=uuid4)
-    status: OrderStatus = field(default=OrderStatus.PENDING, init=False)
-    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc), init=False)
+    status: OrderStatus = field(default=OrderStatus.PENDING)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         if not self.items:
@@ -30,10 +30,11 @@ class Order:
     @property
     def total_amount(self) -> Money:
         """Calcula el total como suma de (unit_price * quantity) de todos los ítems."""
-        total = Money.zero()
-        for item in self.items:
-            total = total + item.line_total
-        return total
+        return sum((item.line_total for item in self.items), Money.zero())
+
+    def _meets_minimum_amount(self) -> bool:
+        """Indica si el total cumple el monto mínimo para procesar pago."""
+        return self.total_amount.amount >= MINIMUM_ORDER_AMOUNT
 
     def mark_paid(self) -> None:
         """Transición a PAID. Requiere total >= 10.00 USD."""
@@ -41,7 +42,7 @@ class Order:
             raise InvalidOrderStateError(
                 f"Solo un pedido PENDING puede pagarse. Estado actual: {self.status}"
             )
-        if self.total_amount.amount < MINIMUM_ORDER_AMOUNT:
+        if not self._meets_minimum_amount():
             raise InvalidOrderStateError(
                 f"El monto mínimo para procesar es 10.00 USD. Total actual: {self.total_amount.amount}"
             )

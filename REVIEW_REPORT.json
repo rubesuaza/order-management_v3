@@ -1,0 +1,81 @@
+{
+  "status": "needs_correction",
+  "structure_compliance": {
+    "score": 95,
+    "missing_files": [],
+    "notes": "Estructura src/{project_name}/domain, application, infrastructure presente. Adaptadores in_ existe pero vacío (solo __init__.py). Falta implementación de controladores REST."
+  },
+  "domain_compliance": {
+    "score": 92,
+    "missing_entities": [],
+    "notes": "Order (agregado), OrderItem, Money, Address presentes. Invariantes implementadas (pedido vacío, total, monto mínimo, cantidades > 0, precios ≥ 0). Transiciones CANCELLED/SHIPPED correctas. Jerarquía de excepciones implementada. Dominio sin dependencias de infraestructura. Gaps: validación explícita de consistencia de moneda; Money.zero() en total_amount asume USD (fallaría con EUR)."
+  },
+  "infrastructure_compliance": {
+    "score": 70,
+    "notes": "Persistencia SQLAlchemy con modelos separados, mappers, transacciones async. Esquema Alembic con orders/order_items, PK UUID, índices en customer_id y status. API REST: CRÍTICO - endpoints /api/v1/orders NO implementados en main.py ni en adaptadores in_."
+  },
+  "checklist_compliance": {
+    "passed_items": [
+      "Python 3.12+",
+      "FastAPI",
+      "Pydantic v2",
+      "Estructura domain/application/infrastructure",
+      "pytest",
+      "Order, OrderItem, Money, Address",
+      "Pedido vacío, total_amount, monto mínimo 10 USD",
+      "Cantidades > 0, precios no negativos",
+      "Transiciones CANCELLED (PENDING/PAID), SHIPPED (PAID)",
+      "Excepciones dominio",
+      "Tabla orders, order_items, índices",
+      "ORM separado, mappers, async",
+      "Pruebas unitarias dominio/application/infrastructure"
+    ],
+    "failed_items": [
+      "Endpoints POST/GET/POST pay en /api/v1/orders",
+      "Adaptadores REST (controladores) en infrastructure/adapters/in_",
+      "Modelos Pydantic Request/Response para API",
+      "Exception Handlers globales (400, 404, 409)",
+      "Pruebas de integración (httpx, BD real/test)"
+    ]
+  },
+  "test_results": {
+    "command_executed": "python -m pytest tests/ -v",
+    "passed": true,
+    "total_tests": 56,
+    "failures": 0,
+    "output_summary": "56 passed in 0.80s"
+  },
+  "gaps": [
+    {
+      "severity": "high",
+      "category": "api",
+      "description": "No existen endpoints REST para ordenes: POST /api/v1/orders, GET /api/v1/orders/{order_id}, POST /api/v1/orders/{order_id}/pay. main.py solo expone /health y /. El directorio infrastructure/adapters/in_ está vacío.",
+      "fix_suggestion": "Implementar controlador REST en infrastructure/adapters/in_/ (ej. order_controller.py) con routers FastAPI, inyectar casos de uso, registrar en main.py bajo prefix /api/v1."
+    },
+    {
+      "severity": "high",
+      "category": "api",
+      "description": "Faltan modelos Pydantic para Request/Response de la API. Las entidades de dominio no deben exponerse directamente.",
+      "fix_suggestion": "Crear DTOs Pydantic en infrastructure/adapters/in_/schemas o similar (CreateOrderRequest, OrderResponse, etc.) y mapear con el dominio."
+    },
+    {
+      "severity": "high",
+      "category": "api",
+      "description": "No hay Exception Handlers globales que mapeen excepciones de dominio (InvalidOrderStateError, OrderNotFoundError, InvalidItemError, CurrencyMismatchError) a códigos HTTP 400, 404, 409.",
+      "fix_suggestion": "Añadir app.add_exception_handler en main.py para cada excepción de dominio."
+    },
+    {
+      "severity": "high",
+      "category": "tests",
+      "description": "No hay pruebas de integración. tests/integration contiene solo __init__.py.",
+      "fix_suggestion": "Añadir tests de integración con TestClient/httpx contra endpoints de la API y, si aplica, base de datos de prueba."
+    },
+    {
+      "severity": "medium",
+      "category": "domain",
+      "description": "Order.total_amount usa Money.zero() con moneda USD por defecto. Pedidos con items en otra moneda (ej. EUR) fallarían al calcular el total.",
+      "fix_suggestion": "Usar Money.zero(self.items[0].unit_price.currency) y/o validar explícitamente en __post_init__ que todos los ítems tengan la misma moneda."
+    }
+  ],
+  "next_recommended_action": "implement_api_rest"
+}

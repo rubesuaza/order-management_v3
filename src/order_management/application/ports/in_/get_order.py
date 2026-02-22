@@ -1,4 +1,4 @@
-"""Port de entrada para obtener detalle de pedido."""
+"""Input port to get order details."""
 
 from abc import ABC, abstractmethod
 from uuid import UUID
@@ -7,9 +7,9 @@ from order_management.domain.models.order import Order
 
 
 class GetOrderPort(ABC):
-    """Interfaz del caso de uso de obtener pedido."""
+    """Interface for the get order use case."""
 
     @abstractmethod
     async def execute(self, order_id: UUID) -> Order:
-        """Obtiene un pedido por ID. Lanza OrderNotFoundError si no existe."""
+        """Retrieves an order by ID. Raises OrderNotFoundError if it does not exist."""
         ...
