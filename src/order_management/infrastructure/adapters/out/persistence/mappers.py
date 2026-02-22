@@ -1,7 +1,5 @@
 """Mappers entre entidades de dominio y modelos de persistencia."""
 
-from dataclasses import replace
-from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
@@ -24,12 +22,10 @@ def order_model_to_domain(model: OrderModel) -> Order:
         for item in model.items
     ]
     order = Order(customer_id=UUID(str(model.customer_id)), items=items)
-    return replace(
-        order,
-        id=UUID(str(model.id)),
-        status=OrderStatus(model.status),
-        created_at=model.created_at,
-    )
+    object.__setattr__(order, "id", UUID(str(model.id)))
+    object.__setattr__(order, "status", OrderStatus(model.status))
+    object.__setattr__(order, "created_at", model.created_at)
+    return order
 
 
 def order_domain_to_model(order: Order) -> OrderModel:
