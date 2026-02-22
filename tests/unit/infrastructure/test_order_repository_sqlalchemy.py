@@ -36,16 +36,15 @@ def _make_order(
     order_id: UUID | None = None,
     status: OrderStatus = OrderStatus.PENDING,
 ) -> Order:
-    """Helper para crear Order de prueba."""
+    """Helper to create test Order using constructor with full state."""
     oid = order_id or uuid4()
-    order = Order(
+    return Order(
         id=oid,
         customer_id=uuid4(),
         items=[OrderItem(product_id=uuid4(), quantity=2, unit_price=Money(Decimal("10.00")))],
+        status=status,
+        created_at=datetime.now(timezone.utc),
     )
-    object.__setattr__(order, "status", status)
-    object.__setattr__(order, "created_at", datetime.now(timezone.utc))
-    return order
 
 
 def _make_order_model(order: Order) -> OrderModel:

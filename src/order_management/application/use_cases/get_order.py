@@ -9,13 +9,13 @@ from order_management.domain.models.order import Order
 
 
 class GetOrderUseCase(GetOrderPort):
-    """Implementación del caso de uso de obtener pedido."""
+    """Implementation of the get order use case."""
 
     def __init__(self, order_repository: OrderRepository) -> None:
         self._order_repository = order_repository
 
     async def execute(self, order_id: UUID) -> Order:
-        """Obtiene un pedido por ID."""
+        """Retrieves an order by ID. Raises OrderNotFoundError if it does not exist."""
         order = await self._order_repository.get_by_id(order_id)
         if order is None:
             raise OrderNotFoundError(f"Pedido no encontrado: {order_id}")

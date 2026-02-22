@@ -12,16 +12,16 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
 
-    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/order_management"
+    database_url: str = "postgresql+asyncpg://localhost:5432/order_management"
     api_prefix: str = "/api/v1"
 
 
-_settings: Settings | None = None
+_settings_cache: Settings | None = None
 
 
 def get_settings() -> Settings:
-    """Retorna la configuración (singleton)."""
-    global _settings
-    if _settings is None:
-        _settings = Settings()
-    return _settings
+    """Return application settings (singleton)."""
+    global _settings_cache  # noqa: PLW0603
+    if _settings_cache is None:
+        _settings_cache = Settings()
+    return _settings_cache

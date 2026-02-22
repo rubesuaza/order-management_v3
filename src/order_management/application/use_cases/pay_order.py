@@ -9,13 +9,13 @@ from order_management.domain.models.order import Order
 
 
 class PayOrderUseCase(PayOrderPort):
-    """Implementación del caso de uso de pagar pedido."""
+    """Implementation of the pay order use case."""
 
     def __init__(self, order_repository: OrderRepository) -> None:
         self._order_repository = order_repository
 
     async def execute(self, order_id: UUID) -> Order:
-        """Procesa el pago del pedido (simulado)."""
+        """Processes order payment. Raises OrderNotFoundError or InvalidOrderStateError."""
         order = await self._order_repository.get_by_id(order_id)
         if order is None:
             raise OrderNotFoundError(f"Pedido no encontrado: {order_id}")
