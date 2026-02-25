@@ -50,11 +50,9 @@ public class Order {
     }
 
     private static Money computeTotal(List<OrderItem> items) {
-        Money total = new Money(java.math.BigDecimal.ZERO);
-        for (OrderItem item : items) {
-            total = total.add(item.getLineTotal());
-        }
-        return total;
+        return items.stream()
+                .map(OrderItem::getLineTotal)
+                .reduce(new Money(java.math.BigDecimal.ZERO), Money::add);
     }
 
     public OrderId getId() {
@@ -81,6 +79,14 @@ public class Order {
         return status;
     }
 
+    private boolean canBeShipped() {
+        return status == OrderStatus.PAID;
+    }
+
+    private boolean canBeCancelled() {
+        return status != OrderStatus.SHIPPED && status != OrderStatus.DELIVERED;
+    }
+
     /**
      * Order can only be marked PAID if status is PENDING and total >= 10.00 USD.
      */
@@ -100,7 +106,7 @@ public class Order {
      * Order can only be SHIPPED when status is PAID.
      */
     public void ship() {
-        if (status != OrderStatus.PAID) {
+        if (!canBeShipped()) {
             throw new InvalidOrderStateException(
                     "Order can only be shipped when status is PAID. Current: " + status);
         }
@@ -111,7 +117,7 @@ public class Order {
      * Order can only be CANCELLED when status is PENDING or PAID. SHIPPED cannot be cancelled.
      */
     public void cancel() {
-        if (status == OrderStatus.SHIPPED || status == OrderStatus.DELIVERED) {
+        if (!canBeCancelled()) {
             throw new InvalidOrderStateException(
                     "Order cannot be cancelled when already SHIPPED or DELIVERED. Current: " + status);
         }

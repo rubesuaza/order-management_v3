@@ -28,14 +28,18 @@ public class OrderItemEntity {
     @Column(name = "unit_price", nullable = false, precision = 19, scale = 2)
     private BigDecimal unitPrice;
 
+    @Column(name = "currency", nullable = false, length = 3)
+    private String currency;
+
     protected OrderItemEntity() {
     }
 
-    public OrderItemEntity(UUID id, UUID productId, int quantity, BigDecimal unitPrice) {
+    public OrderItemEntity(UUID id, UUID productId, int quantity, BigDecimal unitPrice, String currency) {
         this.id = id;
         this.productId = productId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
+        this.currency = currency == null || currency.isBlank() ? "USD" : currency;
     }
 
     public UUID getId() {
@@ -60,5 +64,9 @@ public class OrderItemEntity {
 
     public BigDecimal getUnitPrice() {
         return unitPrice;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 }

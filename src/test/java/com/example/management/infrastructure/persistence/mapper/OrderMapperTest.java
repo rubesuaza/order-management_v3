@@ -66,7 +66,7 @@ class OrderMapperTest {
                     ORDER_ID, CUSTOMER_ID, "PAID",
                     new BigDecimal("25.00"), "USD", LocalDateTime.now());
             OrderItemEntity itemEntity = new OrderItemEntity(
-                    UUID.randomUUID(), PRODUCT_ID, 3, new BigDecimal("5.00"));
+                    UUID.randomUUID(), PRODUCT_ID, 3, new BigDecimal("5.00"), "USD");
             entity.setItems(List.of(itemEntity));
 
             Order order = mapper.toDomain(entity);

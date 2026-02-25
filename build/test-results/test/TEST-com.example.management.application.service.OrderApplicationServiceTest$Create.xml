@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="create" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-02-25T23:14:12" hostname="RubenS" time="0.07">
+  <properties/>
+  <testcase name="createsOrderWithItemsAndSaves()" classname="com.example.management.application.service.OrderApplicationServiceTest$Create" time="0.038"/>
+  <testcase name="rejectsEmptyItems()" classname="com.example.management.application.service.OrderApplicationServiceTest$Create" time="0.015"/>
+  <testcase name="rejectsNullItems()" classname="com.example.management.application.service.OrderApplicationServiceTest$Create" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

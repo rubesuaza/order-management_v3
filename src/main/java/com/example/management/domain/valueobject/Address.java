@@ -13,10 +13,20 @@ public final class Address {
     private final String country;
 
     public Address(String street, String city, String zipCode, String country) {
-        this.street = street;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.country = country;
+        this.street = requireNonBlank(street, "Street cannot be null or empty");
+        this.city = requireNonBlank(city, "City cannot be null or empty");
+        this.zipCode = requireNonBlank(zipCode, "Zip code cannot be null or empty");
+        this.country = requireNonBlank(country, "Country cannot be null or empty");
+    }
+
+    private static String requireNonBlank(String value, String message) {
+        if (value == null) {
+            throw new IllegalArgumentException(message);
+        }
+        if (value.isBlank()) {
+            throw new IllegalArgumentException(message);
+        }
+        return value;
     }
 
     public String getStreet() {

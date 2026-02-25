@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Maps between domain Order/OrderItem and persistence OrderEntity/OrderItemEntity.
@@ -29,7 +28,7 @@ public class OrderMapper {
         );
         List<OrderItemEntity> itemEntities = order.getItems().stream()
                 .map(item -> toItemEntity(item, entity))
-                .collect(Collectors.toList());
+                .toList();
         entity.setItems(itemEntities);
         return entity;
     }
@@ -39,7 +38,8 @@ public class OrderMapper {
                 UUID.randomUUID(),
                 item.getProductId(),
                 item.getQuantity(),
-                item.getUnitPrice().getAmount()
+                item.getUnitPrice().getAmount(),
+                order.getCurrency()
         );
         e.setOrder(order);
         return e;
@@ -48,7 +48,7 @@ public class OrderMapper {
     public Order toDomain(OrderEntity entity) {
         List<OrderItem> items = entity.getItems().stream()
                 .map(this::toDomainItem)
-                .collect(Collectors.toList());
+                .toList();
         return Order.reconstitute(
                 entity.getId(),
                 entity.getCustomerId(),
@@ -59,10 +59,14 @@ public class OrderMapper {
     }
 
     private OrderItem toDomainItem(OrderItemEntity e) {
+        String currency = e.getCurrency();
+        if (currency == null || currency.isBlank()) {
+            currency = "USD";
+        }
         return new OrderItem(
                 e.getProductId(),
                 e.getQuantity(),
-                new Money(e.getUnitPrice(), null)
+                new Money(e.getUnitPrice(), currency)
         );
     }
 }
