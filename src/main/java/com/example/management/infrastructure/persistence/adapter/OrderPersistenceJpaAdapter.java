@@ -1,6 +1,6 @@
 package com.example.management.infrastructure.persistence.adapter;
 
-import com.example.management.application.port.out.OrderPersistencePort;
+import com.example.management.domain.port.out.OrderPersistencePort;
 import com.example.management.domain.model.Order;
 import com.example.management.domain.model.OrderId;
 import com.example.management.infrastructure.persistence.entity.OrderEntity;

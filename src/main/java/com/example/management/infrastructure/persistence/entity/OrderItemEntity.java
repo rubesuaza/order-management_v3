@@ -39,7 +39,7 @@ public class OrderItemEntity {
         this.productId = productId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
-        this.currency = currency == null || currency.isBlank() ? "USD" : currency;
+        this.currency = currency;
     }
 
     public UUID getId() {

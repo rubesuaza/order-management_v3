@@ -3,7 +3,7 @@ package com.example.management.application.service;
 import com.example.management.application.port.in.CreateOrderCommand;
 import com.example.management.application.port.in.CreateOrderUseCase;
 import com.example.management.application.port.in.OrderItemRequest;
-import com.example.management.application.port.out.OrderPersistencePort;
+import com.example.management.domain.port.out.OrderPersistencePort;
 import com.example.management.domain.OrderStatus;
 import com.example.management.domain.model.Order;
 import com.example.management.domain.model.OrderId;

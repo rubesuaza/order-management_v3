@@ -5,7 +5,7 @@ import com.example.management.application.port.in.CreateOrderUseCase;
 import com.example.management.application.port.in.GetOrderUseCase;
 import com.example.management.application.port.in.OrderItemRequest;
 import com.example.management.application.port.in.PayOrderUseCase;
-import com.example.management.application.port.out.OrderPersistencePort;
+import com.example.management.domain.port.out.OrderPersistencePort;
 import com.example.management.domain.model.Order;
 import com.example.management.domain.model.OrderId;
 import com.example.management.domain.model.OrderItem;
@@ -13,6 +13,7 @@ import com.example.management.domain.valueobject.Money;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

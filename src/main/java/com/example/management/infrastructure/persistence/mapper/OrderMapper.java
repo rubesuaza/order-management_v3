@@ -59,14 +59,10 @@ public class OrderMapper {
     }
 
     private OrderItem toDomainItem(OrderItemEntity e) {
-        String currency = e.getCurrency();
-        if (currency == null || currency.isBlank()) {
-            currency = "USD";
-        }
         return new OrderItem(
                 e.getProductId(),
                 e.getQuantity(),
-                new Money(e.getUnitPrice(), currency)
+                new Money(e.getUnitPrice(), e.getCurrency())
         );
     }
 }
