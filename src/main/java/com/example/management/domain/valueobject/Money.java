@@ -50,7 +50,7 @@ public final class Money {
     private void ensureSameCurrency(Money other) {
         if (!this.currency.equals(other.currency)) {
             throw new CurrencyMismatchException(
-                    "Currency mismatch: cannot operate on " + this.currency + " and " + other.currency);
+                    "currency mismatch: cannot operate on " + this.currency + " and " + other.currency);
         }
     }
 
