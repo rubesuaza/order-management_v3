@@ -27,15 +27,26 @@ public class Order {
     private OrderStatus status;
 
     public Order(UUID id, UUID customerId, List<OrderItem> items) {
+        this(id, customerId, items, LocalDateTime.now(), OrderStatus.PENDING);
+    }
+
+    /**
+     * Reconstitutes an order from persistence (known state and creation time).
+     */
+    public static Order reconstitute(UUID id, UUID customerId, LocalDateTime createdAt, List<OrderItem> items, OrderStatus status) {
+        return new Order(id, customerId, items, createdAt, status);
+    }
+
+    private Order(UUID id, UUID customerId, List<OrderItem> items, LocalDateTime createdAt, OrderStatus status) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Order must have at least one item");
         }
         this.id = new OrderId(id);
         this.customerId = Objects.requireNonNull(customerId, "customerId");
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt != null ? createdAt : LocalDateTime.now();
         this.items = new ArrayList<>(items);
         this.totalAmount = computeTotal(items);
-        this.status = OrderStatus.PENDING;
+        this.status = status != null ? status : OrderStatus.PENDING;
     }
 
     private static Money computeTotal(List<OrderItem> items) {
