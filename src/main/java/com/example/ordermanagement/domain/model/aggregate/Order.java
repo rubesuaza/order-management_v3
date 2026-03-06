@@ -39,6 +39,14 @@ public final class Order {
         return new Order(id, OrderStatus.PENDING, List.of(), new Money(BigDecimal.ZERO, DEFAULT_CURRENCY));
     }
 
+    /**
+     * Recreates an Order from persisted state.
+     * Used when loading from persistence layer.
+     */
+    public static Order restore(OrderId id, OrderStatus status, List<OrderItem> items, Money totalAmount) {
+        return new Order(id, status, new ArrayList<>(items), totalAmount);
+    }
+
     public OrderId getId() {
         return id;
     }
