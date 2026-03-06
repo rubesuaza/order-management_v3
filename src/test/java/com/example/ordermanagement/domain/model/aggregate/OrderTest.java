@@ -9,6 +9,7 @@ import com.example.ordermanagement.domain.model.valueobject.OrderStatus;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,5 +122,43 @@ class OrderTest {
         Money eur = new Money(new BigDecimal("5.00"), "EUR");
         assertThrows(CurrencyMismatchException.class, () ->
                 order.addItem(new OrderItem(UUID.randomUUID(), "prod-1", 1, eur)));
+    }
+
+    @Test
+    void shouldThrowWhenCancellingAlreadyCancelledOrder() {
+        Order order = Order.create(OrderId.generate());
+        order.addItem(new OrderItem(UUID.randomUUID(), "prod-1", 2, FIVE_USD));
+        order.place();
+        order.cancel();
+        assertThrows(InvalidOrderStateException.class, order::cancel);
+    }
+
+    @Test
+    void shouldPayWhenStatusIsPending() {
+        Order order = Order.create(OrderId.generate());
+        order.addItem(new OrderItem(UUID.randomUUID(), "prod-1", 2, FIVE_USD));
+        order.place();
+        order.pay();
+        assertEquals(OrderStatus.PAID, order.getStatus());
+    }
+
+    @Test
+    void shouldThrowWhenPayingNonPendingOrder() {
+        Order order = Order.create(OrderId.generate());
+        order.addItem(new OrderItem(UUID.randomUUID(), "prod-1", 2, FIVE_USD));
+        order.place();
+        order.pay();
+        assertThrows(InvalidOrderStateException.class, order::pay);
+    }
+
+    @Test
+    void shouldRestoreOrderFromPersistedState() {
+        OrderId id = OrderId.generate();
+        OrderItem item = new OrderItem(UUID.randomUUID(), "prod-1", 2, FIVE_USD);
+        Order restored = Order.restore(id, OrderStatus.PENDING, List.of(item), new Money(new BigDecimal("10.00"), "USD"));
+        assertEquals(id, restored.getId());
+        assertEquals(OrderStatus.PENDING, restored.getStatus());
+        assertEquals(1, restored.getItems().size());
+        assertEquals(new Money(new BigDecimal("10.00"), "USD"), restored.getTotalAmount());
     }
 }

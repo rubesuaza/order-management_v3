@@ -55,4 +55,27 @@ class MoneyTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
+
+    @Test
+    void shouldThrowWhenAmountIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Money(null, "USD"));
+    }
+
+    @Test
+    void shouldThrowWhenCurrencyIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Money(new BigDecimal("10.00"), null));
+    }
+
+    @Test
+    void shouldThrowWhenCurrencyIsBlank() {
+        assertThrows(IllegalArgumentException.class, () -> new Money(new BigDecimal("10.00"), ""));
+    }
+
+    @Test
+    void shouldMultiplyWithBigDecimal() {
+        Money money = new Money(new BigDecimal("10.00"), "USD");
+        Money result = money.multiply(new BigDecimal("2.5"));
+        assertEquals(new BigDecimal("25.00"), result.getAmount());
+        assertEquals("USD", result.getCurrency());
+    }
 }

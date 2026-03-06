@@ -49,4 +49,41 @@ class OrderItemTest {
         assertEquals(new BigDecimal("15.00"), lineTotal.getAmount());
         assertEquals("USD", lineTotal.getCurrency());
     }
+
+    @Test
+    void shouldThrowWhenIdIsNull() {
+        Money unitPrice = new Money(new BigDecimal("5.00"), "USD");
+        assertThrows(IllegalArgumentException.class, () ->
+                new OrderItem(null, "prod-1", 1, unitPrice));
+    }
+
+    @Test
+    void shouldThrowWhenProductIdIsNull() {
+        Money unitPrice = new Money(new BigDecimal("5.00"), "USD");
+        assertThrows(IllegalArgumentException.class, () ->
+                new OrderItem(UUID.randomUUID(), null, 1, unitPrice));
+    }
+
+    @Test
+    void shouldThrowWhenProductIdIsBlank() {
+        Money unitPrice = new Money(new BigDecimal("5.00"), "USD");
+        assertThrows(IllegalArgumentException.class, () ->
+                new OrderItem(UUID.randomUUID(), "   ", 1, unitPrice));
+    }
+
+    @Test
+    void shouldThrowWhenUnitPriceIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new OrderItem(UUID.randomUUID(), "prod-1", 1, null));
+    }
+
+    @Test
+    void shouldSupportEqualsAndHashCode() {
+        UUID id = UUID.randomUUID();
+        Money unitPrice = new Money(new BigDecimal("5.00"), "USD");
+        OrderItem a = new OrderItem(id, "prod-1", 1, unitPrice);
+        OrderItem b = new OrderItem(id, "prod-2", 2, unitPrice);
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+    }
 }
