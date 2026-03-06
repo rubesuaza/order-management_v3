@@ -1,0 +1,82 @@
+{
+  "status": "needs_correction",
+  "audit_evidence": {
+    "files_inspected": [
+      "build.gradle",
+      "src/main/java/com/example/ordermanagement/OrderManagementApplication.java",
+      "src/main/java/com/example/ordermanagement/domain/model/aggregate/Order.java",
+      "src/main/java/com/example/ordermanagement/domain/model/entity/OrderItem.java",
+      "src/main/java/com/example/ordermanagement/domain/model/valueobject/Address.java",
+      "src/main/java/com/example/ordermanagement/domain/model/valueobject/Money.java",
+      "src/main/java/com/example/ordermanagement/domain/model/valueobject/OrderStatus.java",
+      "src/main/java/com/example/ordermanagement/domain/model/valueobject/OrderId.java",
+      "src/main/java/com/example/ordermanagement/infrastructure/adapter/OrderRepositoryAdapter.java",
+      "src/main/java/com/example/ordermanagement/infrastructure/persistence/entity/OrderEntity.java",
+      "src/main/java/com/example/ordermanagement/application/service/CreateOrderService.java",
+      "src/main/java/com/example/ordermanagement/application/ports/in/CreateOrderUseCase.java",
+      "src/main/java/com/example/ordermanagement/application/aspect/OrderUseCaseLoggingAspect.java",
+      "src/main/java/com/example/ordermanagement/domain/exception/DomainException.java"
+    ],
+    "commands_run": [
+      "find src -type f -name '*.java'",
+      "grep -r '@RestController|@Controller|Controller'",
+      "grep -r '@ControllerAdvice|ExceptionHandler'",
+      "./gradlew clean test --no-daemon",
+      "find src -type d | sort"
+    ]
+  },
+  "checklist_compliance": {
+    "passed_items": [
+      "Domain entities (Order, OrderItem) with invariants",
+      "Value objects (Money, OrderId, OrderStatus, Address)",
+      "Application services (CreateOrder, PayOrder, CancelOrder)",
+      "Ports (CreateOrderUseCase, PayOrderUseCase, CancelOrderUseCase, OrderRepository)",
+      "Infrastructure adapter (OrderRepositoryAdapter) for persistence",
+      "JPA persistence (OrderEntity, OrderItemEntity, OrderJpaRepository)",
+      "AOP logging aspect for use cases",
+      "Domain exceptions (InvalidOrderStateException, InvalidItemException, CurrencyMismatchException)"
+    ],
+    "failed_items": [
+      "Global Exception Handling: No @ControllerAdvice or equivalent found",
+      "REST API: No @RestController or HTTP endpoints defined",
+      "spring-boot-starter-web: Not present in build.gradle (no REST layer)"
+    ]
+  },
+  "structure_compliance": {
+    "score": 85,
+    "missing_paths": [
+      "infrastructure/adapters/in/rest (directory exists but empty - no REST controller)",
+      "infrastructure/adapters/in/web (empty)",
+      "infrastructure/adapters/out/persistence (empty - adapter is in infrastructure/adapter)",
+      "infrastructure/config (empty)"
+    ]
+  },
+  "test_results": {
+    "command": "./gradlew clean test --no-daemon",
+    "passed": true,
+    "total": 55,
+    "failures": 0,
+    "output_summary": "BUILD SUCCESSFUL in 36s. 55 tests, 0 failures, 100% success rate. Packages: application.service (7), domain.model.aggregate (16), domain.model.entity (10), domain.model.valueobject (19), infrastructure.adapter (3)."
+  },
+  "gaps": [
+    {
+      "severity": "critical",
+      "category": "infrastructure",
+      "description": "No REST Controller implementation. infrastructure/adapters/in/web and infrastructure/adapters/in/rest directories exist but are empty. Order management typically requires HTTP API for Create, Pay, Cancel operations.",
+      "fix_suggestion": "Add spring-boot-starter-web to build.gradle. Create OrderRestController in infrastructure/adapters/in/rest exposing POST /orders, POST /orders/{id}/pay, POST /orders/{id}/cancel."
+    },
+    {
+      "severity": "critical",
+      "category": "infrastructure",
+      "description": "No Global Exception Handling. Domain exceptions (InvalidOrderStateException, InvalidItemException, CurrencyMismatchException) are not mapped to HTTP error responses.",
+      "fix_suggestion": "Create @RestControllerAdvice with @ExceptionHandler methods mapping DomainException subclasses to appropriate HTTP status codes (e.g., 400 Bad Request, 409 Conflict)."
+    },
+    {
+      "severity": "medium",
+      "category": "domain",
+      "description": "Address value object exists but is not integrated into Order aggregate. Order has no shipping/delivery address field.",
+      "fix_suggestion": "Add optional Address shippingAddress to Order aggregate if delivery address is a domain requirement. Update OrderEntity and mappers accordingly."
+    }
+  ],
+  "next_recommended_action": "implement_infrastructure"
+}

@@ -79,15 +79,10 @@ public final class Order {
     }
 
     private void recalculateTotal() {
-        if (items.isEmpty()) {
-            totalAmount = new Money(BigDecimal.ZERO, totalAmount.getCurrency());
-        } else {
-            Money sum = items.get(0).getLineTotal();
-            for (int i = 1; i < items.size(); i++) {
-                sum = sum.add(items.get(i).getLineTotal());
-            }
-            totalAmount = sum;
-        }
+        totalAmount = items.stream()
+                .map(OrderItem::getLineTotal)
+                .reduce(Money::add)
+                .orElse(new Money(BigDecimal.ZERO, totalAmount.getCurrency()));
     }
 
     /**

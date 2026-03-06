@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Infrastructure adapter implementing OrderRepository port.
@@ -74,7 +73,7 @@ public class OrderRepositoryAdapter implements OrderRepository {
                             unitPrice
                     );
                 })
-                .collect(Collectors.toList());
+                .toList();
         Money totalAmount = new Money(entity.getTotalAmount(), entity.getTotalCurrency());
         return Order.restore(
                 new OrderId(entity.getId()),

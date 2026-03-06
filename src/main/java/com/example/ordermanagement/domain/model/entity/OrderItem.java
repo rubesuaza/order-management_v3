@@ -71,4 +71,46 @@ public final class OrderItem {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    /**
+     * Fluent Builder for OrderItem (Design Pattern: Builder).
+     * Reduces boilerplate when constructing OrderItem with multiple parameters.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private UUID id;
+        private String productId;
+        private int quantity;
+        private Money unitPrice;
+
+        private Builder() {
+        }
+
+        public Builder id(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder productId(String productId) {
+            this.productId = productId;
+            return this;
+        }
+
+        public Builder quantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Builder unitPrice(Money unitPrice) {
+            this.unitPrice = unitPrice;
+            return this;
+        }
+
+        public OrderItem build() {
+            return new OrderItem(id, productId, quantity, unitPrice);
+        }
+    }
 }
