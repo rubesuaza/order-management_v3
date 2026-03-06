@@ -34,6 +34,19 @@ public class Order {
         this.totalAmount = Money.usd(BigDecimal.ZERO);
     }
 
+    /**
+     * Reconstitution from persistence. Used by infrastructure adapters to restore Order state.
+     */
+    public Order(OrderId id, OrderStatus status, List<OrderItem> items, Money totalAmount) {
+        if (id == null) {
+            throw new IllegalArgumentException("OrderId cannot be null");
+        }
+        this.id = id;
+        this.status = status != null ? status : OrderStatus.PENDING;
+        this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
+        this.totalAmount = totalAmount != null ? totalAmount : Money.usd(BigDecimal.ZERO);
+    }
+
     public OrderId getId() {
         return id;
     }
