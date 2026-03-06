@@ -34,7 +34,7 @@ class OrderRepositoryAdapterUnitTest {
 
     @BeforeEach
     void setUp() {
-        adapter = new OrderRepositoryAdapter(jpaRepository);
+        adapter = new OrderRepositoryAdapter(jpaRepository, new OrderPersistenceMapper());
     }
 
     @Test

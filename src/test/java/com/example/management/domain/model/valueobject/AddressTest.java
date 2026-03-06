@@ -20,4 +20,16 @@ class AddressTest {
         Address b = new Address("Street 2", "City", "12345", "US");
         assertNotEquals(a, b);
     }
+
+    @Test
+    void builder_createsEquivalentAddress() {
+        Address expected = new Address("Street 1", "City", "12345", "US");
+        Address built = Address.builder()
+                .street("Street 1")
+                .city("City")
+                .postalCode("12345")
+                .country("US")
+                .build();
+        assertEquals(expected, built);
+    }
 }

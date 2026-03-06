@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * Immutable value object representing a shipping or billing address.
+ * Supports Builder pattern for fluent construction.
  */
 public final class Address {
 
@@ -17,6 +18,41 @@ public final class Address {
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private String street;
+        private String city;
+        private String postalCode;
+        private String country;
+
+        public Builder street(String street) {
+            this.street = street;
+            return this;
+        }
+
+        public Builder city(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public Builder postalCode(String postalCode) {
+            this.postalCode = postalCode;
+            return this;
+        }
+
+        public Builder country(String country) {
+            this.country = country;
+            return this;
+        }
+
+        public Address build() {
+            return new Address(street, city, postalCode, country);
+        }
     }
 
     public String getStreet() {

@@ -69,4 +69,19 @@ class OrderItemTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
+
+    @Test
+    void builder_createsEquivalentItem() {
+        OrderItem expected = new OrderItem(1, "PROD-001", 2, Money.usd(BigDecimal.valueOf(5.00)));
+        OrderItem built = OrderItem.builder()
+                .itemId(1)
+                .productId("PROD-001")
+                .quantity(2)
+                .unitPrice(Money.usd(BigDecimal.valueOf(5.00)))
+                .build();
+        assertEquals(expected.getItemId(), built.getItemId());
+        assertEquals(expected.getProductId(), built.getProductId());
+        assertEquals(expected.getQuantity(), built.getQuantity());
+        assertEquals(expected.getLineTotal().getAmount(), built.getLineTotal().getAmount());
+    }
 }

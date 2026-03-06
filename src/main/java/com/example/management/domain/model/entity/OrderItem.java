@@ -9,6 +9,7 @@ import java.util.Objects;
  * Entity representing an item within an Order aggregate.
  * Must only be instantiated or modified through the Order aggregate.
  * Validates quantity > 0 and non-negative unitPrice during construction.
+ * Supports Builder pattern for fluent construction.
  */
 public final class OrderItem {
 
@@ -16,6 +17,41 @@ public final class OrderItem {
     private final String productId;
     private final int quantity;
     private final Money unitPrice;
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private int itemId;
+        private String productId;
+        private int quantity;
+        private Money unitPrice;
+
+        public Builder itemId(int itemId) {
+            this.itemId = itemId;
+            return this;
+        }
+
+        public Builder productId(String productId) {
+            this.productId = productId;
+            return this;
+        }
+
+        public Builder quantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Builder unitPrice(Money unitPrice) {
+            this.unitPrice = unitPrice;
+            return this;
+        }
+
+        public OrderItem build() {
+            return new OrderItem(itemId, productId, quantity, unitPrice);
+        }
+    }
 
     public OrderItem(int itemId, String productId, int quantity, Money unitPrice) {
         if (quantity <= 0) {

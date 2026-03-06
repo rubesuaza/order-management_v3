@@ -36,6 +36,23 @@ public final class Order {
         this.totalAmount = Money.usd(java.math.BigDecimal.ZERO);
     }
 
+    /**
+     * Reconstitutes an Order from persistence.
+     * Bypasses business validations; use only when restoring from storage.
+     */
+    public static Order reconstitute(OrderId id, List<OrderItem> items, OrderStatus status, Money totalAmount) {
+        if (id == null) {
+            throw new IllegalArgumentException("OrderId cannot be null");
+        }
+        Order order = new Order(id);
+        if (items != null && !items.isEmpty()) {
+            order.items.addAll(items);
+        }
+        order.totalAmount = totalAmount != null ? totalAmount : Money.usd(java.math.BigDecimal.ZERO);
+        order.status = status != null ? status : OrderStatus.PENDING;
+        return order;
+    }
+
     public OrderId getId() {
         return id;
     }
@@ -77,11 +94,9 @@ public final class Order {
     }
 
     private void recalculateTotal() {
-        Money sum = Money.usd(java.math.BigDecimal.ZERO);
-        for (OrderItem item : items) {
-            sum = sum.add(item.getLineTotal());
-        }
-        this.totalAmount = sum;
+        this.totalAmount = items.stream()
+                .map(OrderItem::getLineTotal)
+                .reduce(Money.usd(java.math.BigDecimal.ZERO), Money::add);
     }
 
     /**

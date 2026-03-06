@@ -1,6 +1,7 @@
 package com.example.management.domain.model.aggregate;
 
 import com.example.management.domain.exception.InvalidOrderStateException;
+import com.example.management.domain.model.entity.OrderItem;
 import com.example.management.domain.model.valueobject.Money;
 import com.example.management.domain.model.valueobject.OrderId;
 import com.example.management.domain.model.valueobject.OrderStatus;
@@ -146,5 +147,26 @@ class OrderTest {
         Order order = new Order(OrderId.generate());
         order.addItem("PROD-001", 1, Money.usd(BigDecimal.TEN));
         assertThrows(UnsupportedOperationException.class, () -> order.getItems().add(null));
+    }
+
+    @Test
+    void reconstitute_restoresOrderWithCorrectState() {
+        OrderId id = OrderId.generate();
+        OrderItem item = new OrderItem(1, "PROD-001", 2, Money.usd(BigDecimal.valueOf(15.00)));
+        Order order = Order.reconstitute(
+                id,
+                java.util.List.of(item),
+                OrderStatus.PAID,
+                Money.usd(BigDecimal.valueOf(30.00)));
+        assertEquals(id, order.getId());
+        assertEquals(OrderStatus.PAID, order.getStatus());
+        assertEquals(1, order.getItems().size());
+        assertEquals(0, BigDecimal.valueOf(30.00).compareTo(order.getTotalAmount().getAmount()));
+    }
+
+    @Test
+    void reconstitute_nullOrderId_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> Order.reconstitute(null, java.util.List.of(), OrderStatus.PENDING, Money.usd(BigDecimal.ZERO)));
     }
 }
