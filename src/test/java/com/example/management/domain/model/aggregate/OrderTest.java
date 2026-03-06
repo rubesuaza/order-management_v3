@@ -118,4 +118,33 @@ class OrderTest {
         assertThrows(InvalidOrderStateException.class,
                 () -> order.addItem("PROD-002", 1, Money.usd(BigDecimal.ONE)));
     }
+
+    @Test
+    void constructor_nullOrderId_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new Order(null));
+    }
+
+    @Test
+    void removeItem_whenNotPending_throwsInvalidOrderStateException() {
+        Order order = new Order(OrderId.generate());
+        order.addItem("PROD-001", 1, Money.usd(BigDecimal.valueOf(10.00)));
+        order.place();
+        order.pay();
+        assertThrows(InvalidOrderStateException.class, () -> order.removeItem(1));
+    }
+
+    @Test
+    void cancel_alreadyCancelled_throwsInvalidOrderStateException() {
+        Order order = new Order(OrderId.generate());
+        order.addItem("PROD-001", 1, Money.usd(BigDecimal.valueOf(10.00)));
+        order.cancel();
+        assertThrows(InvalidOrderStateException.class, order::cancel);
+    }
+
+    @Test
+    void getItems_returnsUnmodifiableList() {
+        Order order = new Order(OrderId.generate());
+        order.addItem("PROD-001", 1, Money.usd(BigDecimal.TEN));
+        assertThrows(UnsupportedOperationException.class, () -> order.getItems().add(null));
+    }
 }

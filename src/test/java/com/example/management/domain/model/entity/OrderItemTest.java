@@ -43,4 +43,30 @@ class OrderItemTest {
         assertThrows(InvalidItemException.class,
                 () -> new OrderItem(1, "  ", 1, Money.usd(BigDecimal.ONE)));
     }
+
+    @Test
+    void constructor_nullProductId_throwsInvalidItemException() {
+        assertThrows(InvalidItemException.class,
+                () -> new OrderItem(1, null, 1, Money.usd(BigDecimal.ONE)));
+    }
+
+    @Test
+    void constructor_nullUnitPrice_throwsInvalidItemException() {
+        assertThrows(InvalidItemException.class,
+                () -> new OrderItem(1, "PROD-001", 1, null));
+    }
+
+    @Test
+    void getLineTotal_calculatesCorrectly() {
+        OrderItem item = new OrderItem(1, "PROD-001", 3, Money.usd(BigDecimal.valueOf(7.50)));
+        assertEquals(0, new BigDecimal("22.50").compareTo(item.getLineTotal().getAmount()));
+    }
+
+    @Test
+    void equals_sameItemId_returnsTrue() {
+        OrderItem a = new OrderItem(1, "PROD-001", 1, Money.usd(BigDecimal.ONE));
+        OrderItem b = new OrderItem(1, "PROD-002", 2, Money.usd(BigDecimal.TEN));
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+    }
 }

@@ -59,4 +59,40 @@ class MoneyTest {
     void constructor_blankCurrency_throws() {
         assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, ""));
     }
+
+    @Test
+    void constructor_nullCurrency_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, null));
+    }
+
+    @Test
+    void of_createsMoneyWithCurrency() {
+        Money m = Money.of(BigDecimal.valueOf(100.50), "EUR");
+        assertEquals(0, new BigDecimal("100.50").compareTo(m.getAmount()));
+        assertEquals("EUR", m.getCurrency());
+    }
+
+    @Test
+    void subtract_sameCurrency_returnsNewInstance() {
+        Money a = Money.usd(BigDecimal.valueOf(20.00));
+        Money b = Money.usd(BigDecimal.valueOf(7.50));
+        Money result = a.subtract(b);
+        assertEquals(0, new BigDecimal("12.50").compareTo(result.getAmount()));
+        assertNotSame(a, result);
+    }
+
+    @Test
+    void subtract_differentCurrencies_throwsCurrencyMismatchException() {
+        Money usd = Money.usd(BigDecimal.TEN);
+        Money eur = new Money(BigDecimal.ONE, "EUR");
+        assertThrows(CurrencyMismatchException.class, () -> usd.subtract(eur));
+    }
+
+    @Test
+    void equals_sameAmountAndCurrency_returnsTrue() {
+        Money a = Money.usd(BigDecimal.valueOf(10.00));
+        Money b = Money.usd(BigDecimal.valueOf(10.00));
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+    }
 }
