@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -133,5 +134,42 @@ class OrderTest {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.cancel();
         assertThrows(InvalidOrderStateException.class, () -> order.cancel());
+    }
+
+    @Test
+    void addItem_nullItem_throwsInvalidItemException() {
+        assertThrows(InvalidItemException.class, () -> order.addItem(null));
+    }
+
+    @Test
+    void constructor_nullOrderId_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new Order((OrderId) null));
+    }
+
+    @Test
+    void reconstitutionConstructor_restoresStateCorrectly() {
+        OrderId id = OrderId.generate();
+        OrderItem item = new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00")));
+        Order reconstituted = new Order(id, OrderStatus.PENDING, List.of(item), Money.usd(new BigDecimal("10.00")));
+
+        assertEquals(id, reconstituted.getId());
+        assertEquals(OrderStatus.PENDING, reconstituted.getStatus());
+        assertEquals(1, reconstituted.getItems().size());
+        assertEquals(new BigDecimal("10.00"), reconstituted.getTotalAmount().getAmount());
+    }
+
+    @Test
+    void removeItem_whenNotPending_throwsInvalidOrderStateException() {
+        OrderItem item = new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00")));
+        order.addItem(item);
+        order.pay();
+        assertThrows(InvalidOrderStateException.class, () -> order.removeItem(item.getId()));
+    }
+
+    @Test
+    void place_whenNotPending_throwsInvalidOrderStateException() {
+        order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
+        order.pay();
+        assertThrows(InvalidOrderStateException.class, () -> order.place());
     }
 }

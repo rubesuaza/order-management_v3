@@ -49,4 +49,22 @@ class OrderItemTest {
         OrderItem item = new OrderItem("prod-1", 3, Money.usd(new BigDecimal("4.99")));
         assertEquals(new BigDecimal("14.97"), item.getLineTotal().getAmount());
     }
+
+    @Test
+    void constructor_nullProductId_throwsInvalidItemException() {
+        assertThrows(InvalidItemException.class,
+                () -> new OrderItem(null, 1, Money.usd(BigDecimal.ONE)));
+    }
+
+    @Test
+    void constructor_nullUnitPrice_throwsInvalidItemException() {
+        assertThrows(InvalidItemException.class,
+                () -> new OrderItem("prod-1", 1, null));
+    }
+
+    @Test
+    void constructor_nullId_generatesNewUuid() {
+        OrderItem item = new OrderItem(null, "prod-1", 1, Money.usd(BigDecimal.ONE));
+        assertNotNull(item.getId());
+    }
 }

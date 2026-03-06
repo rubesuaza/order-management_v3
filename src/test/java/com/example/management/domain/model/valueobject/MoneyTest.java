@@ -72,4 +72,19 @@ class MoneyTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
+
+    @Test
+    void constructor_blankCurrency_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, ""));
+        assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, "   "));
+    }
+
+    @Test
+    void multiply_withBigDecimal_returnsNewInstance() {
+        Money m = Money.usd(new BigDecimal("10.00"));
+        Money result = m.multiply(new BigDecimal("2.5"));
+        assertNotSame(m, result);
+        assertEquals(new BigDecimal("25.00"), result.getAmount());
+        assertEquals("USD", result.getCurrency());
+    }
 }
