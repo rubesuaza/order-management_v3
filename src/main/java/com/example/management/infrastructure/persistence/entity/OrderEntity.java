@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -18,12 +19,18 @@ import java.util.UUID;
  * JPA entity for Order aggregate. Maps to domain model in infrastructure adapter.
  */
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", indexes = {
+        @Index(name = "idx_customer_id", columnList = "customer_id"),
+        @Index(name = "idx_status", columnList = "status")
+})
 public class OrderEntity {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
+
+    @Column(name = "customer_id")
+    private UUID customerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -46,6 +53,14 @@ public class OrderEntity {
         this.status = status;
         this.totalAmount = totalAmount;
         this.totalCurrency = totalCurrency;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
     public UUID getId() {

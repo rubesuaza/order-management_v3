@@ -1,10 +1,13 @@
 package com.example.management.domain.model.valueobject;
 
+import lombok.Builder;
+
 import java.util.Objects;
 
 /**
  * Immutable value object representing a delivery address.
  */
+@Builder
 public final class Address {
 
     private final String street;

@@ -1,18 +1,7 @@
 package com.example.management.application.ports.out;
 
-import com.example.management.domain.model.aggregate.Order;
-import com.example.management.domain.model.aggregate.OrderId;
-
-import java.util.Optional;
-
 /**
- * Output port for Order persistence. Implemented by infrastructure adapters.
+ * Output port for Order persistence. Extends domain abstraction; implemented by infrastructure adapters.
  */
-public interface OrderRepository {
-
-    Order save(Order order);
-
-    Optional<Order> findById(OrderId id);
-
-    boolean existsById(OrderId id);
+public interface OrderRepository extends com.example.management.domain.repository.OrderRepository {
 }

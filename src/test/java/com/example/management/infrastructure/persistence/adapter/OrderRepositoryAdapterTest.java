@@ -5,6 +5,7 @@ import com.example.management.domain.model.aggregate.Order;
 import com.example.management.domain.model.aggregate.OrderId;
 import com.example.management.domain.model.entity.OrderItem;
 import com.example.management.domain.model.valueobject.Money;
+import com.example.management.infrastructure.persistence.mapper.OrderPersistenceMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(OrderRepositoryAdapter.class)
+@Import({OrderRepositoryAdapter.class, OrderPersistenceMapper.class})
 @EntityScan(basePackages = "com.example.management.infrastructure.persistence.entity")
 @EnableJpaRepositories(basePackages = "com.example.management.infrastructure.persistence.repository")
 @ActiveProfiles("test")
@@ -29,7 +30,7 @@ class OrderRepositoryAdapterTest {
     private OrderRepository repository;
 
     @Test
-    void save_and_findById_roundtrips_order() {
+    void saveAndFindByIdRoundtripsOrder() {
         OrderId id = OrderId.generate();
         Order order = new Order(id);
         order.addItem(new OrderItem("PROD-001", 2, Money.usd(new BigDecimal("15.00"))));
@@ -49,7 +50,7 @@ class OrderRepositoryAdapterTest {
     }
 
     @Test
-    void existsById_returnsTrue_whenOrderExists() {
+    void existsByIdReturnsTrueWhenOrderExists() {
         OrderId id = OrderId.generate();
         Order order = new Order(id);
         order.addItem(new OrderItem("PROD-001", 1, Money.usd(new BigDecimal("20.00"))));
@@ -59,13 +60,13 @@ class OrderRepositoryAdapterTest {
     }
 
     @Test
-    void existsById_returnsFalse_whenOrderDoesNotExist() {
+    void existsByIdReturnsFalseWhenOrderDoesNotExist() {
         OrderId id = OrderId.generate();
         assertThat(repository.existsById(id)).isFalse();
     }
 
     @Test
-    void findById_returnsEmpty_whenOrderDoesNotExist() {
+    void findByIdReturnsEmptyWhenOrderDoesNotExist() {
         OrderId id = OrderId.generate();
         assertThat(repository.findById(id)).isEmpty();
     }

@@ -1,6 +1,7 @@
 package com.example.management.domain.model.valueobject;
 
 import com.example.management.domain.exception.CurrencyMismatchException;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
  * Immutable value object for monetary amounts.
  * Any operation (add/multiply) returns a new instance.
  */
+@Builder
 public final class Money {
 
     private final BigDecimal amount;

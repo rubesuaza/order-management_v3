@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class Order {
 
-    private static final Money MINIMUM_ORDER_AMOUNT = Money.usd(new BigDecimal("10.00"));
+    private static final Money minimumOrderAmount = Money.usd(new BigDecimal("10.00"));
 
     private final OrderId id;
     private OrderStatus status;
@@ -36,14 +36,18 @@ public class Order {
 
     /**
      * Reconstitution from persistence. Used by infrastructure adapters to restore Order state.
+     * Business rule: an Order must have at least one item.
      */
     public Order(OrderId id, OrderStatus status, List<OrderItem> items, Money totalAmount) {
         if (id == null) {
             throw new IllegalArgumentException("OrderId cannot be null");
         }
+        if (items == null || items.isEmpty()) {
+            throw new InvalidOrderStateException("Order must have at least one item");
+        }
         this.id = id;
         this.status = status != null ? status : OrderStatus.PENDING;
-        this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
+        this.items = new ArrayList<>(items);
         this.totalAmount = totalAmount != null ? totalAmount : Money.usd(BigDecimal.ZERO);
     }
 
@@ -92,15 +96,9 @@ public class Order {
     }
 
     private void recalculateTotal() {
-        if (items.isEmpty()) {
-            totalAmount = Money.usd(BigDecimal.ZERO);
-            return;
-        }
-        Money sum = items.get(0).getLineTotal();
-        for (int i = 1; i < items.size(); i++) {
-            sum = sum.add(items.get(i).getLineTotal());
-        }
-        totalAmount = sum;
+        totalAmount = items.stream()
+                .map(OrderItem::getLineTotal)
+                .reduce(Money.usd(BigDecimal.ZERO), Money::add);
     }
 
     private void ensureCurrencyConsistency(Money money) {
@@ -117,7 +115,10 @@ public class Order {
         if (status != OrderStatus.PENDING) {
             throw new InvalidOrderStateException("Order can only be placed when status is PENDING");
         }
-        if (!totalAmount.isGreaterThanOrEqual(MINIMUM_ORDER_AMOUNT)) {
+        if (items == null || items.isEmpty()) {
+            throw new InvalidOrderStateException("Order must contain at least one item");
+        }
+        if (!totalAmount.isGreaterThanOrEqual(minimumOrderAmount)) {
             throw new InvalidOrderStateException(
                     "Minimum order amount is $10.00 USD. Current total: " + totalAmount.getAmount());
         }

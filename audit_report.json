@@ -1,0 +1,103 @@
+{
+  "status": "needs_correction",
+  "audit_evidence": {
+    "files_inspected": [
+      "src/main/java/com/example/management/domain/model/aggregate/Order.java",
+      "src/main/java/com/example/management/domain/model/aggregate/OrderId.java",
+      "src/main/java/com/example/management/domain/model/entity/OrderItem.java",
+      "src/main/java/com/example/management/domain/model/valueobject/Address.java",
+      "src/main/java/com/example/management/domain/model/valueobject/Money.java",
+      "src/main/java/com/example/management/domain/model/valueobject/OrderStatus.java",
+      "src/main/java/com/example/management/application/ports/in/CreateOrderUseCase.java",
+      "src/main/java/com/example/management/application/ports/in/PayOrderUseCase.java",
+      "src/main/java/com/example/management/application/ports/in/CancelOrderUseCase.java",
+      "src/main/java/com/example/management/application/ports/out/OrderRepository.java",
+      "src/main/java/com/example/management/infrastructure/persistence/adapter/OrderRepositoryAdapter.java",
+      "src/main/java/com/example/management/infrastructure/persistence/mapper/OrderPersistenceMapper.java",
+      "src/main/java/com/example/management/infrastructure/persistence/entity/OrderEntity.java",
+      "src/main/java/com/example/management/infrastructure/persistence/entity/OrderItemEntity.java",
+      "src/main/java/com/example/management/infrastructure/adapters/in/web/",
+      "src/main/java/com/example/management/application/services/",
+      "build.gradle",
+      "build/reports/tests/test/index.html"
+    ],
+    "commands_run": [
+      "find -type d (structure mapping)",
+      "find -type f -name '*.java' (file inventory)",
+      "grep @ControllerAdvice|@RestController|@ExceptionHandler (REST/exception handling)",
+      "./gradlew test --no-daemon (test execution)"
+    ]
+  },
+  "checklist_compliance": {
+    "passed_items": [
+      "Domain model (Order, OrderItem, OrderId, Money, Address, OrderStatus)",
+      "Domain invariants (currency consistency, status transitions, minimum order amount)",
+      "Repository port and persistence adapter",
+      "Persistence mapper (Order <-> OrderEntity)",
+      "Unit tests for domain (Order, OrderItem, Money, Address, OrderId)",
+      "Integration tests for OrderRepositoryAdapter",
+      "Build compiles successfully",
+      "All tests pass (49 tests, 0 failures)"
+    ],
+    "failed_items": [
+      "Global Exception Handling: No @ControllerAdvice or @ExceptionHandler found",
+      "REST API: No REST controllers in infrastructure/adapters/in/web (only .gitkeep)",
+      "Application services: No implementations of CreateOrderUseCase, PayOrderUseCase, CancelOrderUseCase",
+      "API/Adapter fidelity: Use case ports defined but no REST or service layer to expose them"
+    ]
+  },
+  "structure_compliance": {
+    "score": 85,
+    "missing_paths": [
+      "infrastructure/adapters/in/web/*Controller.java (REST controllers)",
+      "application/services/*Service.java (use case implementations)",
+      "infrastructure/config or adapters for exception handling (@ControllerAdvice)"
+    ],
+    "present_paths": [
+      "domain/model/aggregate",
+      "domain/model/entity",
+      "domain/model/valueobject",
+      "domain/exception",
+      "application/ports/in",
+      "application/ports/out",
+      "infrastructure/persistence/adapter",
+      "infrastructure/persistence/mapper",
+      "infrastructure/persistence/entity",
+      "infrastructure/persistence/repository"
+    ]
+  },
+  "test_results": {
+    "command": "./gradlew test --no-daemon",
+    "passed": true,
+    "total": 49,
+    "failures": 0,
+    "output_summary": "BUILD SUCCESSFUL. 49 tests across OrderTest(20), OrderIdTest(4), OrderItemTest(9), AddressTest(2), MoneyTest(10), OrderRepositoryAdapterTest(4). 100% success rate."
+  },
+  "gaps": [
+    {
+      "severity": "critical",
+      "category": "infrastructure",
+      "description": "No REST controllers. infrastructure/adapters/in/web contains only .gitkeep. CreateOrderUseCase, PayOrderUseCase, CancelOrderUseCase have no HTTP entry points.",
+      "fix_suggestion": "Implement OrderController (or OrderRestController) in infrastructure/adapters/in/web with POST /orders, POST /orders/{id}/pay, POST /orders/{id}/cancel endpoints."
+    },
+    {
+      "severity": "critical",
+      "category": "infrastructure",
+      "description": "No application service implementations. CreateOrderUseCase, PayOrderUseCase, CancelOrderUseCase are ports only; no @Service classes implement them.",
+      "fix_suggestion": "Create CreateOrderService, PayOrderService, CancelOrderService in application/services implementing the respective ports and wiring OrderRepository."
+    },
+    {
+      "severity": "medium",
+      "category": "infrastructure",
+      "description": "No global exception handling. DomainException, InvalidOrderStateException, InvalidItemException, CurrencyMismatchException have no @ControllerAdvice to map to HTTP 4xx responses.",
+      "fix_suggestion": "Add GlobalExceptionHandler with @ControllerAdvice and @ExceptionHandler methods for DomainException subclasses, returning appropriate ResponseEntity."
+    },
+    {
+      "severity": "medium",
+      "category": "domain",
+      "description": "Address value object exists but is not used by Order aggregate. May be orphan or future extension.",
+      "fix_suggestion": "Either add shippingAddress/deliveryAddress to Order if required by domain, or document as intentional future use."
+    }
+  ],
+  "next_recommended_action": "implement_infrastructure"
+}

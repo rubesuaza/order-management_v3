@@ -2,6 +2,7 @@ package com.example.management.domain.model.entity;
 
 import com.example.management.domain.exception.InvalidItemException;
 import com.example.management.domain.model.valueobject.Money;
+import lombok.Builder;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class OrderItem {
     private final int quantity;
     private final Money unitPrice;
 
+    @Builder
     public OrderItem(UUID id, String productId, int quantity, Money unitPrice) {
         if (productId == null || productId.isBlank()) {
             throw new InvalidItemException("Product ID cannot be null or blank");

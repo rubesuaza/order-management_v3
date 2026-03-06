@@ -46,32 +46,37 @@ class OrderTest {
     }
 
     @Test
-    void place_totalLessThan10_throwsInvalidOrderStateException() {
+    void placeWithNoItemsThrowsInvalidOrderStateException() {
+        assertThrows(InvalidOrderStateException.class, () -> order.place());
+    }
+
+    @Test
+    void placeTotalLessThan10ThrowsInvalidOrderStateException() {
         order.addItem(new OrderItem("prod-1", 1, Money.usd(new BigDecimal("5.00"))));
         assertThrows(InvalidOrderStateException.class, () -> order.place());
     }
 
     @Test
-    void place_totalExactly10_succeeds() {
+    void placeTotalExactly10Succeeds() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         assertDoesNotThrow(() -> order.place());
     }
 
     @Test
-    void place_totalGreaterThan10_succeeds() {
+    void placeTotalGreaterThan10Succeeds() {
         order.addItem(new OrderItem("prod-1", 3, Money.usd(new BigDecimal("5.00"))));
         assertDoesNotThrow(() -> order.place());
     }
 
     @Test
-    void cancel_whenPending_succeeds() {
+    void cancelWhenPendingSucceeds() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.cancel();
         assertEquals(OrderStatus.CANCELLED, order.getStatus());
     }
 
     @Test
-    void cancel_whenPaid_succeeds() {
+    void cancelWhenPaidSucceeds() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.pay();
         order.cancel();
@@ -79,7 +84,7 @@ class OrderTest {
     }
 
     @Test
-    void cancel_whenShipped_throwsInvalidOrderStateException() {
+    void cancelWhenShippedThrowsInvalidOrderStateException() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.pay();
         order.ship();
@@ -87,13 +92,13 @@ class OrderTest {
     }
 
     @Test
-    void ship_whenNotPaid_throwsInvalidOrderStateException() {
+    void shipWhenNotPaidThrowsInvalidOrderStateException() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         assertThrows(InvalidOrderStateException.class, () -> order.ship());
     }
 
     @Test
-    void ship_whenPaid_succeeds() {
+    void shipWhenPaidSucceeds() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.pay();
         order.ship();
@@ -116,21 +121,21 @@ class OrderTest {
     }
 
     @Test
-    void pay_transitionsFromPendingToPaid() {
+    void payTransitionsFromPendingToPaid() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.pay();
         assertEquals(OrderStatus.PAID, order.getStatus());
     }
 
     @Test
-    void pay_whenNotPending_throwsInvalidOrderStateException() {
+    void payWhenNotPendingThrowsInvalidOrderStateException() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.pay();
         assertThrows(InvalidOrderStateException.class, () -> order.pay());
     }
 
     @Test
-    void cancel_whenAlreadyCancelled_throwsInvalidOrderStateException() {
+    void cancelWhenAlreadyCancelledThrowsInvalidOrderStateException() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.cancel();
         assertThrows(InvalidOrderStateException.class, () -> order.cancel());
@@ -142,12 +147,12 @@ class OrderTest {
     }
 
     @Test
-    void constructor_nullOrderId_throwsIllegalArgumentException() {
+    void constructorNullOrderIdThrowsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new Order((OrderId) null));
     }
 
     @Test
-    void reconstitutionConstructor_restoresStateCorrectly() {
+    void reconstitutionConstructorRestoresStateCorrectly() {
         OrderId id = OrderId.generate();
         OrderItem item = new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00")));
         Order reconstituted = new Order(id, OrderStatus.PENDING, List.of(item), Money.usd(new BigDecimal("10.00")));
@@ -159,6 +164,20 @@ class OrderTest {
     }
 
     @Test
+    void reconstitutionConstructorEmptyItemsThrowsInvalidOrderStateException() {
+        OrderId id = OrderId.generate();
+        assertThrows(InvalidOrderStateException.class,
+                () -> new Order(id, OrderStatus.PENDING, List.of(), Money.usd(BigDecimal.ZERO)));
+    }
+
+    @Test
+    void reconstitutionConstructorNullItemsThrowsInvalidOrderStateException() {
+        OrderId id = OrderId.generate();
+        assertThrows(InvalidOrderStateException.class,
+                () -> new Order(id, OrderStatus.PENDING, null, Money.usd(BigDecimal.ZERO)));
+    }
+
+    @Test
     void removeItem_whenNotPending_throwsInvalidOrderStateException() {
         OrderItem item = new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00")));
         order.addItem(item);
@@ -167,7 +186,7 @@ class OrderTest {
     }
 
     @Test
-    void place_whenNotPending_throwsInvalidOrderStateException() {
+    void placeWhenNotPendingThrowsInvalidOrderStateException() {
         order.addItem(new OrderItem("prod-1", 2, Money.usd(new BigDecimal("5.00"))));
         order.pay();
         assertThrows(InvalidOrderStateException.class, () -> order.place());

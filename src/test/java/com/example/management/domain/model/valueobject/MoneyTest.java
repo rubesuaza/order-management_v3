@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MoneyTest {
 
     @Test
-    void add_sameCurrency_returnsNewInstanceWithSum() {
+    void addSameCurrencyReturnsNewInstanceWithSum() {
         Money a = Money.usd(new BigDecimal("10.00"));
         Money b = Money.usd(new BigDecimal("5.50"));
         Money result = a.add(b);
@@ -21,7 +21,7 @@ class MoneyTest {
     }
 
     @Test
-    void add_differentCurrencies_throwsCurrencyMismatchException() {
+    void addDifferentCurrenciesThrowsCurrencyMismatchException() {
         Money usd = Money.usd(new BigDecimal("10.00"));
         Money eur = Money.of(new BigDecimal("5.00"), "EUR");
 
@@ -29,7 +29,7 @@ class MoneyTest {
     }
 
     @Test
-    void multiply_returnsNewInstance() {
+    void multiplyByIntegerReturnsNewInstanceWithCorrectAmount() {
         Money m = Money.usd(new BigDecimal("10.00"));
         Money result = m.multiply(3);
 
@@ -38,7 +38,39 @@ class MoneyTest {
     }
 
     @Test
-    void isGreaterThanOrEqual_sameCurrency_comparesCorrectly() {
+    void multiplyByZeroReturnsZeroAmount() {
+        Money m = Money.usd(new BigDecimal("10.00"));
+        Money result = m.multiply(0);
+        assertEquals(BigDecimal.ZERO.setScale(2), result.getAmount());
+        assertEquals("USD", result.getCurrency());
+    }
+
+    @Test
+    void multiplyByOneReturnsSameAmount() {
+        Money m = Money.usd(new BigDecimal("10.00"));
+        Money result = m.multiply(1);
+        assertEquals(new BigDecimal("10.00"), result.getAmount());
+        assertEquals("USD", result.getCurrency());
+    }
+
+    @Test
+    void multiplyByNegativeReturnsNegativeAmount() {
+        Money m = Money.usd(new BigDecimal("10.00"));
+        Money result = m.multiply(-2);
+        assertEquals(new BigDecimal("-20.00"), result.getAmount());
+        assertEquals("USD", result.getCurrency());
+    }
+
+    @Test
+    void multiplyByBigDecimalWithFractionAltersScale() {
+        Money m = Money.usd(new BigDecimal("10.00"));
+        Money result = m.multiply(new BigDecimal("0.333"));
+        assertNotNull(result.getAmount());
+        assertEquals("USD", result.getCurrency());
+    }
+
+    @Test
+    void isGreaterThanOrEqualSameCurrencyComparesCorrectly() {
         Money ten = Money.usd(new BigDecimal("10.00"));
         Money five = Money.usd(new BigDecimal("5.00"));
 
@@ -48,7 +80,7 @@ class MoneyTest {
     }
 
     @Test
-    void isGreaterThanOrEqual_differentCurrencies_throwsCurrencyMismatchException() {
+    void isGreaterThanOrEqualDifferentCurrenciesThrowsCurrencyMismatchException() {
         Money usd = Money.usd(new BigDecimal("10.00"));
         Money eur = Money.of(new BigDecimal("5.00"), "EUR");
 
@@ -56,17 +88,17 @@ class MoneyTest {
     }
 
     @Test
-    void constructor_nullAmount_throwsException() {
+    void constructorNullAmountThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Money(null, "USD"));
     }
 
     @Test
-    void constructor_nullCurrency_throwsException() {
+    void constructorNullCurrencyThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, null));
     }
 
     @Test
-    void equals_sameAmountAndCurrency_returnsTrue() {
+    void equalsSameAmountAndCurrencyReturnsTrue() {
         Money a = Money.usd(new BigDecimal("10.00"));
         Money b = Money.usd(new BigDecimal("10.00"));
         assertEquals(a, b);
@@ -74,17 +106,44 @@ class MoneyTest {
     }
 
     @Test
-    void constructor_blankCurrency_throwsException() {
+    void constructorBlankCurrencyThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, ""));
         assertThrows(IllegalArgumentException.class, () -> new Money(BigDecimal.ONE, "   "));
     }
 
     @Test
-    void multiply_withBigDecimal_returnsNewInstance() {
+    void multiplyWithBigDecimalReturnsNewInstance() {
         Money m = Money.usd(new BigDecimal("10.00"));
         Money result = m.multiply(new BigDecimal("2.5"));
         assertNotSame(m, result);
         assertEquals(new BigDecimal("25.00"), result.getAmount());
         assertEquals("USD", result.getCurrency());
+    }
+
+    @Test
+    void equalsNullReturnsFalse() {
+        Money m = Money.usd(BigDecimal.TEN);
+        assertNotEquals(m, null);
+        assertFalse(m.equals(null));
+    }
+
+    @Test
+    void equalsDifferentTypeReturnsFalse() {
+        Money m = Money.usd(BigDecimal.TEN);
+        assertFalse(m.equals("10.00"));
+    }
+
+    @Test
+    void equalsDifferentAmountReturnsFalse() {
+        Money a = Money.usd(new BigDecimal("10.00"));
+        Money b = Money.usd(new BigDecimal("20.00"));
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void equalsDifferentCurrencyReturnsFalse() {
+        Money a = Money.usd(BigDecimal.TEN);
+        Money b = Money.of(BigDecimal.TEN, "EUR");
+        assertNotEquals(a, b);
     }
 }
